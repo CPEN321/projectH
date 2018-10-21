@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "301376980762",
+    "firebase_url": "https://teamh-90491.firebaseio.com",
+    "project_id": "teamh-90491",
+    "storage_bucket": "teamh-90491.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301376980762:android:08b6e3e9d2ad12c9",
+        "android_client_info": {
+          "package_name": "com.example.derinibikunle.hermes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301376980762-bcfrs4edmjaaugdvq8qk1tj463f79ct9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.derinibikunle.hermes",
+            "certificate_hash": "fac55ecb9df38d537cac550250a65c59353913a1"
+          }
+        },
+        {
+          "client_id": "301376980762-1idlc2kt3t0cfg1270bi5h3ldp2p4jp4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdGFt0TZ5uSf50kpPStXuCfqQeHhySMhA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "301376980762-1idlc2kt3t0cfg1270bi5h3ldp2p4jp4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
