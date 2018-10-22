@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-data class UserMessage(var messageUser: String, var messageText: String, var messageDate: LocalDate){
+data class UserMessage(var messageUser: String, var messageText: String, var messageDate: String){
 
     fun getUser(): String{
         return messageUser
@@ -22,11 +22,11 @@ data class UserMessage(var messageUser: String, var messageText: String, var mes
         this.messageText = text
     }
 
-    fun getDate(): LocalDate{
+    fun getDate(): String{
         return messageDate
     }
 
-    fun setDate(date: LocalDate){
+    fun setDate(date: String){
         this.messageDate = date
     }
 }
