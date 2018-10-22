@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
-    private var SIGN_IN_REQUEST_CODE = 6969420
+    private var SIGN_IN_REQUEST_CODE = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,16 +31,14 @@ class MainActivity : AppCompatActivity() {
 
         // Redirect the user once we get a response
         if(requestCode == SIGN_IN_REQUEST_CODE)
-            if (resultCode == Activity.RESULT_OK) showDashboard() else retryLogIn()
+            if (resultCode == Activity.RESULT_OK) showDashboard()
     }
 
     private fun showDashboard() {
-
+        val intent = Intent(this, ChatActivity::class.java)
+        startActivity(intent)
     }
 
-    private fun retryLogIn() {
-
-    }
 
 
 }
