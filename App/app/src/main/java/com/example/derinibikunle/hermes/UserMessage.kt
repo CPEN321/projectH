@@ -1,13 +1,19 @@
 package com.example.derinibikunle.hermes
 
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.*
-
-class UserMessage(){
+class UserMessage {
     var messageUser: String = ""
     var messageText: String = ""
     var messageDate: String = ""
+
+    constructor(messageUser: String, messageText: String, messageDate: String){
+        this.messageUser = messageUser
+        this.messageText = messageText
+        this.messageDate = messageDate
+    }
+
+    // Make Firebase Happy
+    constructor() {
+    }
 
     fun getUser(): String{
         return messageUser

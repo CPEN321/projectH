@@ -6,19 +6,19 @@ import android.support.design.widget.FloatingActionButton
 import android.view.View
 import android.widget.EditText
 import android.widget.ListView
-import com.firebase.ui.auth.data.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
-import java.util.*
 import com.firebase.ui.database.FirebaseListAdapter
 import android.widget.TextView
-import java.text.DateFormat
+import com.firebase.ui.auth.data.model.User
+import com.google.firebase.database.DataSnapshot
+import java.util.*
 
 
 class ChatActivity : AppCompatActivity() {
 
-    private var adapter: FirebaseListAdapter<UserMessage>? = null
+    private var adapter: FirebaseListAdapter<UserMessage>? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,32 +35,39 @@ class ChatActivity : AppCompatActivity() {
 
         val currMessage = UserMessage()
         sendMsgBtn.setOnClickListener {
-            currMessage.messageUser = FirebaseAuth.getInstance().currentUser.toString()
-            currMessage.messageText = chatText.getText().toString()
-            currMessage.messageDate = currentDate
-
-            FirebaseDatabase.getInstance()
-                    .reference
-                    .push()
-                    .setValue(currMessage)
-            chatText.setText("")
+            sendMessage(currMessage, chatText, currentDate)
         }
 
-        adapter = object : FirebaseListAdapter<UserMessage>(this, UserMessage::class.java,
+        adapter = createListAdapter()
+        messageView.adapter = adapter
+    }
+
+    private fun sendMessage(currMessage: UserMessage, chatText: EditText, currentDate: String) {
+        currMessage.messageUser = FirebaseAuth.getInstance().currentUser?.email!!
+        currMessage.messageText = chatText.text.toString()
+        currMessage.messageDate = currentDate
+
+        FirebaseDatabase.getInstance()
+                .reference
+                .push()
+                .setValue(currMessage)
+        chatText.setText("")
+    }
+
+    private fun createListAdapter(): FirebaseListAdapter<UserMessage> {
+        return object : FirebaseListAdapter<UserMessage>(this, UserMessage::class.java,
                 R.layout.activity_user_message, FirebaseDatabase.getInstance().reference) {
-            override protected fun populateView(v: View, model: UserMessage, position: Int) {
+            override fun populateView(v: View, userMessage: UserMessage, position: Int) {
                 // Get references to the views of message.xml
                 val messageText = v.findViewById(R.id.message_text) as TextView
                 val messageUser = v.findViewById(R.id.message_user) as TextView
                 val messageTime = v.findViewById(R.id.message_date) as TextView
 
                 // Set their text
-                messageText.setText(model.getText())
-                messageUser.setText(model.getUser())
-                messageTime.setText(model.getDate())
+                messageText.text = userMessage.messageText
+                messageUser.text = userMessage.messageUser
+                messageTime.text = userMessage.messageDate
             }
         }
-
-        messageView.setAdapter(adapter);
     }
 }
