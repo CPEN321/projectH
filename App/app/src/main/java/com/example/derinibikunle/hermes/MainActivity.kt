@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showDashboard() {
-        val intent = Intent(this, ChatActivity::class.java)
+        //val intent = Intent(this, ChatActivity::class.java)
+        val intent = Intent(this, CalendarActivity::class.java)
         startActivity(intent)
     }
 
