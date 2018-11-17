@@ -17,7 +17,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChatActivity" />
-        <activity android:name=".ufyuv" />
         <activity android:name=".CalendarActivity"></activity>
     </application>
 
