@@ -12,8 +12,7 @@ class UserMessage {
     }
 
     // Make Firebase Happy
-    constructor() {
-    }
+    constructor()
 
     fun getUser(): String{
         return messageUser

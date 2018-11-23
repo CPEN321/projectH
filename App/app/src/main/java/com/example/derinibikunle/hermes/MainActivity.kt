@@ -24,19 +24,19 @@ class MainActivity : AppCompatActivity() {
                             .build(),
                     SIGN_IN_REQUEST_CODE)
 
-        val chatBtn = findViewById(R.id.chat_btn) as Button
+        val chatBtn = findViewById<Button>(R.id.chat_btn)
         chatBtn.setOnClickListener {
             showChat()
         }
 
-        val calendarBtn = findViewById(R.id.calendar_btn) as Button
+        val calendarBtn = findViewById<Button>(R.id.calendar_btn)
             calendarBtn.setOnClickListener {
             showCalendar()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int,  data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data)
 
         // Redirect the user once we get a response
         if(requestCode == SIGN_IN_REQUEST_CODE)
@@ -44,8 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showChat() {
-        val intent = Intent(this, ChatActivity::class.java)
-//        val intent = Intent(this, CalendarActivity::class.java)
+        val intent = Intent(this, GroupChatListActivity::class.java)
         startActivity(intent)
     }
 
