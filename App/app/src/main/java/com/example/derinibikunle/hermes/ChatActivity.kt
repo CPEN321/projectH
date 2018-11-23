@@ -59,7 +59,7 @@ class ChatActivity : AppCompatActivity() {
         return object : FirebaseListAdapter<UserMessage>(this, UserMessage::class.java,
                 R.layout.item_user_message, FirebaseDatabase.getInstance().reference) {
             override fun populateView(v: View, userMessage: UserMessage, position: Int) {
-                // Get references to the views of message.xml
+                // Get references to the views of item_user_message.xml
                 val messageText = v.findViewById(R.id.message_text) as TextView
                 val messageUser = v.findViewById(R.id.message_user) as TextView
                 val messageTime = v.findViewById(R.id.message_date) as TextView

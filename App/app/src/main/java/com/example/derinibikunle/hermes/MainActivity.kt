@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.widget.Button
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
@@ -17,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(FirebaseAuth.getInstance().currentUser == null)
+         if(FirebaseAuth.getInstance().currentUser == null)
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
@@ -44,13 +43,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showChat() {
-        val intent = Intent(this, GroupChatListActivity::class.java)
-        startActivity(intent)
+        ActivityLauncher.launch(this, GroupChatListActivity::class.java)
     }
 
     private fun showCalendar(){
-        val intent = Intent(this, CalendarActivity::class.java)
-        startActivity(intent)
+        ActivityLauncher.launch(this, CalendarActivity::class.java)
     }
 
 

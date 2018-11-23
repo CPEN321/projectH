@@ -1,18 +1,13 @@
 package com.example.derinibikunle.hermes
 
-import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import com.google.firebase.database.FirebaseDatabase
 import com.firebase.ui.database.FirebaseListAdapter
-import com.google.firebase.storage.StorageReference
-import java.net.URL
+
 
 
 class GroupChatListActivity : AppCompatActivity() {
@@ -28,14 +23,36 @@ class GroupChatListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_chat_list)
 
-        val messageView = findViewById<ListView>(R.id.list_of_groups)
+        setupAddGrpButton()
+        setupGroupListView()
 
+    }
+
+    /*
+        HELPER FUNCTIONS FOR SETTING UP THE VIEWS
+     */
+
+    private fun setupAddGrpButton() {
         val addGroupBtn = findViewById<ImageButton>(R.id.button_add_group)
         addGroupBtn.setOnClickListener {
             launchCreateGroupActivity()
         }
+    }
+
+    private fun setupGroupListView() {
+        val groupListView = findViewById<ListView>(R.id.list_of_groups)
         adapter = createListAdapter()
-        messageView.adapter = adapter
+        groupListView.adapter = adapter
+
+        groupListView.onItemClickListener = AdapterView.OnItemClickListener {
+            adapterView, view, position, id ->
+            run {
+                Log.i("myTag", "Opening group chat at position $position")
+//                ActivityLauncher.launch(this, ChatAcitivty)
+            }
+        }
+
+
     }
 
     private fun launchCreateGroupActivity() {
