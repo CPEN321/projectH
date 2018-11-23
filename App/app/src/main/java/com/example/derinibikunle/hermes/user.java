@@ -8,19 +8,23 @@ class user{
     public String user_id;
     public List<String> group_ids;
     public List<EventObjects> calendar_info;
+    public String key;
 
     //for firebase?
     user(){ }
-    user(String user_id){
+    user(String user_id, String key){
         this.user_id = user_id;
         this.username = "";
         int i = 0;
         while(user_id.charAt(i)!='@' && i < user_id.length()){
-            username = username + user_id.charAt(i);
-            i++;
+            if(user_id.charAt(i) != '.') {
+                username = username + user_id.charAt(i);
+                i++;
+            }
         }
         this.group_ids = new ArrayList<String>();
         this.calendar_info = new ArrayList<EventObjects>();
+        this.key= key;
     }
 //    user(String user_id){
 //        this.user_id = user_id;
