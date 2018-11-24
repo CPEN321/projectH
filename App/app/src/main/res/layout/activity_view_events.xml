@@ -8,11 +8,21 @@
     tools:context="com.example.derinibikunle.hermes.ViewEventsActivity"
     android:background="@color/niceBlue">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:text="hello"
+        android:id="@+id/events_today" />
     <ListView
         android:id="@+id/list_of_events"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="28"
+        android:layout_weight="24"
         android:layout_alignParentTop="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"

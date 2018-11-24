@@ -42,7 +42,6 @@ public class SetEventActivity extends AppCompatActivity {
 
     //TODO:
     // error catching if user enters the date/time in wrong
-    //or if they click enter before typing in the fields
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,21 +59,27 @@ public class SetEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //parse the date and time to make a java.util.Dates to pass to firebase
-                name = eventName.getText().toString();
-                dateStrings = splitDate(eventDate.getText().toString());
-                startTimeStrings = splitTime(startTime.getText().toString());
-                endTimeStrings = splitTime(endTime.getText().toString());
+                //this for error checking
+                if(eventName.getText().equals("") || eventDate.getText().equals("")|| startTime.getText().equals("")|| endTime.getText().equals("")) {
+                    Toast.makeText(context, "Please fill out all fields.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    name = eventName.getText().toString();
+                    dateStrings = splitDate(eventDate.getText().toString());
+                    startTimeStrings = splitTime(startTime.getText().toString());
+                    endTimeStrings = splitTime(endTime.getText().toString());
 
-                startDate = getDate(Integer.parseInt(dateStrings[0]), Integer.parseInt(dateStrings[1]),
-                        Integer.parseInt(dateStrings[2]), Integer.parseInt(startTimeStrings[0]),
-                        Integer.parseInt(startTimeStrings[1]));
+                    startDate = getDate(Integer.parseInt(dateStrings[0]), Integer.parseInt(dateStrings[1]),
+                            Integer.parseInt(dateStrings[2]), Integer.parseInt(startTimeStrings[0]),
+                            Integer.parseInt(startTimeStrings[1]));
 
-                endDate = getDate(Integer.parseInt(dateStrings[0]), Integer.parseInt(dateStrings[1]),
-                        Integer.parseInt(dateStrings[2]), Integer.parseInt(endTimeStrings[0]),
-                        Integer.parseInt(endTimeStrings[1]));
+                    endDate = getDate(Integer.parseInt(dateStrings[0]), Integer.parseInt(dateStrings[1]),
+                            Integer.parseInt(dateStrings[2]), Integer.parseInt(endTimeStrings[0]),
+                            Integer.parseInt(endTimeStrings[1]));
 
-                DatabaseQuery.pushToDb(new EventObjects(name, startDate, endDate));
-                Toast.makeText(context, "Event Added!", Toast.LENGTH_LONG).show();
+                    DatabaseQuery.pushToDb(new EventObjects(name, startDate, endDate));
+                    Toast.makeText(context, "Event Added!", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

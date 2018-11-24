@@ -2,18 +2,22 @@ package com.example.derinibikunle.hermes;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import android.content.Context;
 
 public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
     private Activity activity;
     private ArrayList<EventObjects> lEvents;
     private static LayoutInflater inflater = null;
+    private Context context = this.getContext();
 
     public AdapterEventObjects (Activity activity, int textViewResourceId, ArrayList<EventObjects> _lEvents) {
         super(activity, textViewResourceId, _lEvents);
@@ -44,6 +48,7 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
         public TextView display_title;
         public TextView display_start_date;
         public TextView display_end_date;
+        public Button delete_button;
 
     }
 
@@ -58,7 +63,7 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
                 holder.display_title = (TextView) vi.findViewById(R.id.event_title);
                 holder.display_start_date = (TextView) vi.findViewById(R.id.event_start_date);
                 holder.display_end_date = (TextView) vi.findViewById(R.id.event_end_date);
-
+                holder.delete_button = (Button) vi.findViewById(R.id.delete_button);
 
                 vi.setTag(holder);
             } else {
@@ -68,6 +73,15 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
             holder.display_title.setText(lEvents.get(position).getName());
             holder.display_start_date.setText(lEvents.get(position).getStartDate().toString());
             holder.display_end_date.setText(lEvents.get(position).getEndDate().toString());
+
+
+            holder.delete_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, DeleteEventActivity.class);
+                    context.startActivity(intent);
+                }
+            });
 
 
         } catch (Exception e) {

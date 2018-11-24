@@ -7,6 +7,7 @@ public class DatabaseQuery {
     //in here we query firebase for events
 
     public java.util.ArrayList<EventObjects> getAllFutureEvents() {
+        //this is just a stub - should actually get all events from db here
         EventObjects event = new EventObjects("TestEvent", new Date(), new Date());
         java.util.ArrayList<EventObjects> list = new java.util.ArrayList<EventObjects>();
         list.add(event);
