@@ -48,14 +48,13 @@ class MainActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     //if the user does not exist add them
                     if(!snapshot.hasChild(FirebaseAuth.getInstance().currentUser?.uid!!)){
-                        val newUser = user(FirebaseAuth.getInstance().currentUser?.email!!, FirebaseAuth.getInstance().uid!!)
-                        Log.e("BIITCHH", "FUCK")
+                        val newUser = user(FirebaseAuth.getInstance().currentUser?.email!!, FirebaseAuth.getInstance().currentUser?.uid!!)
                         mDataBase.child(newUser.key).setValue(newUser)
                     }
 
                 }
                 override fun onCancelled(p0: DatabaseError) {
-                    Log.e("mutherfucking", "FUCK")
+
                 }
             }
 
