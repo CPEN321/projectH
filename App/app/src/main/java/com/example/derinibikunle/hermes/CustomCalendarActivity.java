@@ -36,7 +36,6 @@ public class CustomCalendarActivity extends AppCompatActivity {
     private Button previousButton, nextButton;
     private TextView thisDate;
     private GridView calendarGridView;
-    DatabaseQuery db = new DatabaseQuery();
     private Button addEventButton;
     private static final int MAX_CALENDAR_COLUMN = 42;
     private int month, year;

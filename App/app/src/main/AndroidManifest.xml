@@ -20,7 +20,6 @@
         <activity android:name=".CustomCalendarActivity"/>
         <activity android:name=".SetEventActivity"/>
         <activity android:name=".ViewEventsActivity"/>
-        <activity android:name=".DeleteEventActivity"/>
     </application>
 
 </manifest>

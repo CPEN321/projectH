@@ -3,6 +3,7 @@ package com.example.derinibikunle.hermes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import android.content.Context;
+import android.widget.Toast;
 
 public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
     private Activity activity;
@@ -52,7 +54,7 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
 
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         final ViewHolder holder;
         try {
@@ -78,7 +80,11 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
             holder.delete_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, DeleteEventActivity.class);
+                    DatabaseQuery.removeFromDb(lEvents.get(position));
+                    lEvents.remove(position);
+                    Toast.makeText(context, "Event deleted!", Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(context, CustomCalendarActivity.class);
                     context.startActivity(intent);
                 }
             });
