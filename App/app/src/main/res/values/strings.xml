@@ -4,10 +4,14 @@
     <string name="chat_input_default">Insert Message</string>
 
     <string name="event_name_input_default">Event Title</string>
-    <string name="date_input_default">Enter Date (DD/MM/YYYY) </string>
-    <string name="start_time_input_default">Enter Start Time (HHHH) </string>
-    <string name="end_time_input_default">Enter End Time (HHHH) </string>
+    <string name="date_input_default">Enter Date (YYYY/MM/DD) </string>
+    <string name="start_time_input_default">Enter Start Time (HH:MM) </string>
+    <string name="end_time_input_default">Enter End Time (HH:MM) </string>
     <string name="create_event">CREATE EVENT</string>
+
+    <string name="done">DONE</string>
+
+
 
     <string name="current_date">November, 2018</string>
     <string name="add_event">ADD CALENDAR EVENT</string>

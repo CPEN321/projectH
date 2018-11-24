@@ -19,7 +19,6 @@
             android:id="@+id/event_input_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignLeft="@+id/name_input_text"
             android:hint="@string/event_name_input_default"
             android:inputType="text"
             android:textColor="@color/colorPrimaryDark" />
@@ -37,7 +36,6 @@
             android:id="@+id/event_input_date"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignLeft="@+id/date_input_text"
             android:hint="@string/date_input_default"
             android:inputType="text"
             android:textColor="@color/colorPrimaryDark" />
@@ -55,7 +53,6 @@
             android:id="@+id/event_input_start_time"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignLeft="@+id/start_time_input_text"
             android:hint="@string/start_time_input_default"
             android:inputType="text"
             android:textColor="@color/colorPrimaryDark" />
@@ -73,7 +70,6 @@
             android:id="@+id/event_input_end_time"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignLeft="@+id/end_time_input_text"
             android:hint="@string/end_time_input_default"
             android:inputType="text"
             android:textColor="@color/colorPrimaryDark" />

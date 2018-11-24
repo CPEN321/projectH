@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="32"
+    android:background="@color/colorWhite"
     tools:context="com.example.derinibikunle.hermes.CustomCalendarActivity">
 
     <LinearLayout
@@ -135,7 +136,7 @@
         android:layout_height="0dp"
         android:layout_weight="26"
         android:numColumns="7"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorWhite"
         android:verticalSpacing="10dp"
         android:gravity="center"
         />

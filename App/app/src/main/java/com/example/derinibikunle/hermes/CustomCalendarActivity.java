@@ -49,9 +49,6 @@ public class CustomCalendarActivity extends AppCompatActivity {
         setNextButtonClickEvent();
         setAddEventButtonClickEvent();
         setGridCellClickEvents();
-
-
-        //CalendarCustomView mView = (CalendarCustomView)findViewById(R.id.custom_calendar);
     }
     private void initializeUILayout(){
         previousButton = (Button)findViewById(R.id.previous_month);
@@ -91,9 +88,13 @@ public class CustomCalendarActivity extends AppCompatActivity {
         calendarGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context, "Clicked " + position, Toast.LENGTH_LONG).show();
-                //add events page which shows all events on that day
-                //with the delete events button
+                //takes you to events page showing all your events on this day
+                //with the delete events button to delete certain events
+                Intent intent = new Intent(context, ViewEventsActivity.class);
+                Bundle b = new Bundle();
+                b.putLong("clickDate", id); //Your id
+                intent.putExtras(b); //Put your id to your next Intent
+                context.startActivity(intent);
             }
         });
     }
