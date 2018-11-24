@@ -48,11 +48,11 @@ class GroupChatListActivity : AppCompatActivity() {
             adapterView, view, position, id ->
             run {
                 Log.i("myTag", "Opening group chat at position $position")
-//                ActivityLauncher.launch(this, ChatAcitivty)
+                ActivityLauncher
+                        .addParam("groupId", "1")
+                        .launch(this, ChatActivity::class.java)
             }
         }
-
-
     }
 
     private fun launchCreateGroupActivity() {
