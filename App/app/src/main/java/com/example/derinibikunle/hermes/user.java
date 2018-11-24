@@ -50,6 +50,9 @@ class user{
     String getUsername(){
         return this.username;
     }
+    void addGroupId(String Id){
+        this.group_ids.add(Id);
+    }
 
 
 
