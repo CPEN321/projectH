@@ -15,7 +15,8 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:visibility="visible" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/send_msg_button"

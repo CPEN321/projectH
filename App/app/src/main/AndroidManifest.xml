@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChatActivity" />
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".CustomCalendarActivity"/>
+        <activity android:name=".SetEventActivity"/>
     </application>
 
 </manifest>

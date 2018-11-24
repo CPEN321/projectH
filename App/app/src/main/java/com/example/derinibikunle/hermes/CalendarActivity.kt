@@ -1,9 +1,13 @@
 package com.example.derinibikunle.hermes
+//package kotlin.collections
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.CalendarView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import java.time.Month
+import java.time.Year
 
 class CalendarActivity : AppCompatActivity() {
 
@@ -13,8 +17,9 @@ class CalendarActivity : AppCompatActivity() {
 
         val calendarView = findViewById<CalendarView>(R.id.calendarView)
         calendarView?.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            // Note that months are indexed from 0. So, 0 means January, 1 means february, 2 means march etc.
-            val msg = "Selected date is " + dayOfMonth + "/" + (month + 1) + "/" + year
+            val msg =
+                    "You have no events on: " + dayOfMonth + "/" + (month + 1) + "/" + year
+
             Toast.makeText(this@CalendarActivity, msg, Toast.LENGTH_SHORT).show()
         }
     }

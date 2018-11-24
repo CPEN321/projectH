@@ -30,7 +30,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         val calendarBtn = findViewById(R.id.calendar_btn) as Button
-            calendarBtn.setOnClickListener {
+        calendarBtn.setOnClickListener {
+            showCalendar()
+        }
+
+        val settingsBtn = findViewById(R.id.test) as Button
+        settingsBtn.setOnClickListener {
             showCalendar()
         }
     }
@@ -50,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCalendar(){
-        val intent = Intent(this, CalendarActivity::class.java)
+        val intent = Intent(this, CustomCalendarActivity::class.java)
         startActivity(intent)
     }
 
