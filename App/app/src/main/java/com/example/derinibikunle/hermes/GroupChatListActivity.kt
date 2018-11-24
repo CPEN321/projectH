@@ -56,7 +56,7 @@ class GroupChatListActivity : AppCompatActivity() {
     }
 
     private fun launchCreateGroupActivity() {
-        /* Do something useful here */
+        ActivityLauncher.launch(this, CreateGroupActivity::class.java)
     }
 
     private fun createListAdapter(): FirebaseListAdapter<GroupChatPreview> {

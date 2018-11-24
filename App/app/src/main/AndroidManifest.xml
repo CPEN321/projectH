@@ -20,8 +20,8 @@
         </activity>
         <activity android:name=".ChatActivity" />
         <activity android:name=".CalendarActivity" />
-        <activity android:name=".GroupChatListActivity"/>
+        <activity android:name=".GroupChatListActivity" />
+        <activity android:name=".CreateGroupActivity"></activity>
     </application>
 
 </manifest>
-

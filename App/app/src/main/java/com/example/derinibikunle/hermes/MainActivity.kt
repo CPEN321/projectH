@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
             mDataBase.addValueEventListener(loginListener)
         }
-            if (resultCode == Activity.RESULT_OK) showChat()
+            //if (resultCode == Activity.RESULT_OK) showChat()
     }
 
     private fun showChat() {
@@ -70,8 +70,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCalendar() {
         ActivityLauncher.launch(this, CalendarActivity::class.java)
-        val mDataBase = FirebaseDatabase.getInstance().reference.child("users")
-        mDataBase.child("Bitch ass hoe").setValue("fuck")
+
+
     }
 
 
