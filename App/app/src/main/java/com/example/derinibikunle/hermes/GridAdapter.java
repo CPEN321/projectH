@@ -60,6 +60,7 @@ public class GridAdapter extends ArrayAdapter {
             }
         }
         return view;
+
     }
     @Override
     public int getCount() {
