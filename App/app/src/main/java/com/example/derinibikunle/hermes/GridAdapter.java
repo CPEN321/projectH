@@ -42,7 +42,7 @@ public class GridAdapter extends ArrayAdapter {
             view = mInflater.inflate(R.layout.single_cell_layout, parent, false);
         }
         if(displayMonth == currentMonth && displayYear == currentYear){
-            view.setBackgroundColor(Color.parseColor("#FF5733"));
+            view.setBackgroundColor(Color.parseColor("#9ff3fc"));
         }else{
             view.setBackgroundColor(Color.parseColor("#cccccc"));
         }
@@ -53,10 +53,10 @@ public class GridAdapter extends ArrayAdapter {
         TextView eventIndicator = (TextView)view.findViewById(R.id.event_id);
         Calendar eventCalendar = Calendar.getInstance();
         for(int i = 0; i < allEvents.size(); i++){
-            eventCalendar.setTime(allEvents.get(i).getDate());
+            eventCalendar.setTime(allEvents.get(i).getStartDate());
             if(dayValue == eventCalendar.get(Calendar.DAY_OF_MONTH) && displayMonth == eventCalendar.get(Calendar.MONTH) + 1
                     && displayYear == eventCalendar.get(Calendar.YEAR)){
-                eventIndicator.setBackgroundColor(Color.parseColor("#FF4081"));
+                eventIndicator.setBackgroundColor(Color.parseColor("#000000"));
             }
         }
         return view;

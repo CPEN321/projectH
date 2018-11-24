@@ -4,24 +4,30 @@ import java.util.Date;
 
 public class EventObjects {
     private int id;
-    private String message;
-    private Date date;
-    public EventObjects(String message, Date date) {
-        this.message = message;
-        this.date = date;
+    private String name;
+    private Date startDate;
+    private Date endDate;
+    public EventObjects(String name, Date startDate, Date endDate) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
-    public EventObjects(int id, String message, Date date) {
-        this.date = date;
-        this.message = message;
+    public EventObjects(int id, String name, Date startDate, Date endDate) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.id = id;
     }
     public int getId() {
         return id;
     }
-    public String getMessage() {
-        return message;
+    public String getName() {
+        return name;
     }
-    public Date getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
+    }
+    public Date getEndDate() {
+        return endDate;
     }
 }

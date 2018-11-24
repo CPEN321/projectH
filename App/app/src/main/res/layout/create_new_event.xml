@@ -7,4 +7,86 @@
     android:weightSum="32"
     tools:context="com.example.derinibikunle.hermes.CustomCalendarActivity"
     android:background="@color/colorPrimaryDark">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/event_input_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@color/niceBlue">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/event_input_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignLeft="@+id/name_input_text"
+            android:hint="@string/event_name_input_default"
+            android:inputType="text"
+            android:textColor="@color/colorPrimaryDark" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/event_input_date_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@color/colorAccent">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/event_input_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignLeft="@+id/date_input_text"
+            android:hint="@string/date_input_default"
+            android:inputType="text"
+            android:textColor="@color/colorPrimaryDark" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/event_input_start_time_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@color/niceBlue">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/event_input_start_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignLeft="@+id/start_time_input_text"
+            android:hint="@string/start_time_input_default"
+            android:inputType="text"
+            android:textColor="@color/colorPrimaryDark" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/event_input_end_time_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@color/colorAccent">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/event_input_end_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignLeft="@+id/end_time_input_text"
+            android:hint="@string/end_time_input_default"
+            android:inputType="text"
+            android:textColor="@color/colorPrimaryDark" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:id="@+id/add_event"
+        android:gravity="center"
+        android:text="@string/add_event"
+        android:textSize="12sp"
+        android:textStyle="bold"/>
 </LinearLayout>
