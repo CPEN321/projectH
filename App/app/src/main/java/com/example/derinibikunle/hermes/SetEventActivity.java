@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SimpleCursorTreeAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Context;
@@ -18,6 +19,9 @@ public class SetEventActivity extends AppCompatActivity {
     private TextView endTime;
     private Button makeEvent;
 
+    private int timeSize = 2;
+    private int dateSize = 3;
+
     private String name;
 
     private Context context = this;
@@ -30,7 +34,7 @@ public class SetEventActivity extends AppCompatActivity {
     private int startMonth;
     private int startDay;
     private int startHour;
-    private int startSecond;
+    private int startMinute;
 
     private Date endDate;
     private String[] endTimeStrings;
@@ -38,10 +42,7 @@ public class SetEventActivity extends AppCompatActivity {
     private int endMonth;
     private int endDay;
     private int endHour;
-    private int endSecond;
-
-    //TODO:
-    // error catching if user enters the date/time in wrong
+    private int endMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +70,63 @@ public class SetEventActivity extends AppCompatActivity {
                     startTimeStrings = splitTime(startTime.getText().toString());
                     endTimeStrings = splitTime(endTime.getText().toString());
 
-                    startDate = getDate(Integer.parseInt(dateStrings[0]), Integer.parseInt(dateStrings[1]),
-                            Integer.parseInt(dateStrings[2]), Integer.parseInt(startTimeStrings[0]),
-                            Integer.parseInt(startTimeStrings[1]));
+                    //more error checking
+                    if (dateStrings.length != dateSize) {
+                        Toast.makeText(context, "Please fill in all date fields.", Toast.LENGTH_LONG).show();
+                    }
+                    else if(startTimeStrings.length != timeSize) {
+                        Toast.makeText(context, "Please fill in all start time fields.", Toast.LENGTH_LONG).show();
+                    }
+                    else if(endTimeStrings.length != timeSize) {
+                        Toast.makeText(context, "Please fill in all end time fields.", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        try {
+                            startYear = Integer.parseInt(dateStrings[0]);
+                            startMonth = Integer.parseInt(dateStrings[1]);
+                            startDay = Integer.parseInt(dateStrings[2]);
+                            startHour = Integer.parseInt(startTimeStrings[0]);
+                            startMinute = Integer.parseInt(startTimeStrings[1]);
+                            endHour = Integer.parseInt(endTimeStrings[0]);
+                            endMinute = Integer.parseInt(endTimeStrings[1]);
+                            endYear = startYear;
+                            endMonth = startMonth;
+                            endDay = startDay;
+                            if(startYear < 0 ) {
+                                Toast.makeText(context, "Year must be positive.", Toast.LENGTH_LONG).show();
+                            }
+                            else if(startMonth > 12 || startMonth < 1) {
+                                Toast.makeText(context, "Please enter a valid month.", Toast.LENGTH_LONG).show();
+                            }
+                            else if(startDay > 31 || startDay < 1) {
+                                Toast.makeText(context, "Please enter a valid day.", Toast.LENGTH_LONG).show();
+                            }
+                            else if((endHour < startHour) || ((endHour == startHour) && (endMinute < startMinute))) {
+                                Toast.makeText(context, "End time must be after start time.", Toast.LENGTH_LONG).show();
+                            }
+                            else if(endHour > 23 || endHour < 1) {
+                                Toast.makeText(context, "End hour must be between 1 and 23.", Toast.LENGTH_LONG).show();
+                            }
+                            else if(startHour > 23 || startHour < 1) {
+                                Toast.makeText(context, "Start hour must be between 1 and 23.", Toast.LENGTH_LONG).show();
+                            }
+                            else if(endMinute > 59 || endMinute < 1) {
+                                Toast.makeText(context, "End minute must be between 1 and 59.", Toast.LENGTH_LONG).show();
+                            }
+                            else if(startMinute > 59 || startMinute < 1) {
+                                Toast.makeText(context, "Start minute must be between 1 and 59.", Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                startDate = getDate(startYear, startMonth, startDay, startHour, startMinute);
+                                endDate = getDate(endYear, endMonth, endDay, endHour, endMinute);
 
-                    endDate = getDate(Integer.parseInt(dateStrings[0]), Integer.parseInt(dateStrings[1]),
-                            Integer.parseInt(dateStrings[2]), Integer.parseInt(endTimeStrings[0]),
-                            Integer.parseInt(endTimeStrings[1]));
-
-                    DatabaseQuery.pushToDb(new EventObjects(name, startDate, endDate));
-                    Toast.makeText(context, "Event Added!", Toast.LENGTH_LONG).show();
+                                DatabaseQuery.pushToDb(new EventObjects(name, startDate, endDate));
+                                Toast.makeText(context, "Event Added!", Toast.LENGTH_LONG).show();
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Please enter date and times in specified format.", Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }
             }
         });
@@ -86,12 +134,14 @@ public class SetEventActivity extends AppCompatActivity {
 
     //separate date into separate fields
     public static String[] splitDate(String date){
-        return date.split("/");
+        String[] strings = date.split("/");
+        return strings;
     }
 
     //separate time into separate fields
     public static String[] splitTime(String time) {
-        return time.split(":");
+        String[] strings = time.split(":");
+        return strings;
     }
 
     //turn the date/time ints into a java Date

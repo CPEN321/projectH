@@ -25,12 +25,6 @@ public class ViewEventsActivity extends AppCompatActivity {
     private TextView eventsToday;
     private Context context = this;
 
-    //TODO:
-    //use actual date and actual future events from db
-
-    //TODO:
-    //add a delete button on each event and enable clicking on it to delete said event
-    //is there some kind of refresh screen setting so that once event is deleted it disappears from list?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -5,8 +5,8 @@
 
     <string name="event_name_input_default">Event Title</string>
     <string name="date_input_default">Enter Date (YYYY/MM/DD) </string>
-    <string name="start_time_input_default">Enter Start Time (HH:MM) </string>
-    <string name="end_time_input_default">Enter End Time (HH:MM) </string>
+    <string name="start_time_input_default">Enter Start Time in 24Hr Format (HH:MM) </string>
+    <string name="end_time_input_default">Enter End Time in 24Hr Format (HH:MM) </string>
     <string name="create_event">CREATE EVENT</string>
 
     <string name="done">DONE</string>
