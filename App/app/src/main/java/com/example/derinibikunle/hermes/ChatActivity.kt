@@ -17,7 +17,7 @@ import android.widget.TextView
 import java.util.*
 
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : AbstractAppActivity() {
 
     private companion object {
         /* Constants */
@@ -27,7 +27,7 @@ class ChatActivity : AppCompatActivity() {
         var GROUP_PATH: String = ""
 
         fun setGroupPath(groupId: String) {
-            GROUP_PATH = "groups/$groupId/chat_log"
+            GROUP_PATH = "Groups/$groupId/chat_log"
         }
     }
 
@@ -52,7 +52,7 @@ class ChatActivity : AppCompatActivity() {
             /* Update the database with the new message */
             sendMessage(chatText.text.toString(), currentDate)
 
-            /* The user needs to have a clean input field after every event */
+            /* The User needs to have a clean input field after every event */
             chatText.setText("")
         }
 
@@ -66,7 +66,7 @@ class ChatActivity : AppCompatActivity() {
         val currentUser = FirebaseAuth.getInstance().currentUser
         if(currentUser == null || currentUser.email == null) {
             Log.e("myTag", "Something went wrong when sending the message... " +
-                    "It does not seem like the user is authenticated")
+                    "It does not seem like the User is authenticated")
             return /* In this case do no send any query to the database */
         }
 

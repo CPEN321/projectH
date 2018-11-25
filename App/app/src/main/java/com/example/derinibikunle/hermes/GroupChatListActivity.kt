@@ -10,19 +10,19 @@ import com.firebase.ui.database.FirebaseListAdapter
 
 
 
-class GroupChatListActivity : AppCompatActivity() {
+class GroupChatListActivity : AbstractAppActivity() {
 
     companion object {
-        const val GROUP_REF:String = "groups"
+        const val GROUP_REF:String = "Groups"
     }
 
-    private var adapter: FirebaseListAdapter<GroupChatPreview>? = null
+    private var adapter: FirebaseListAdapter<Groups>? = null
 //    private var storageRef: StorageReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_group_chat_list)
 
+        setContentView(R.layout.activity_group_chat_list)
         setupAddGrpButton()
         setupGroupListView()
 
@@ -45,6 +45,7 @@ class GroupChatListActivity : AppCompatActivity() {
         groupListView.adapter = adapter
 
         groupListView.onItemClickListener = AdapterView.OnItemClickListener {
+            /* TODO find out what to send to ChatActivity */
             adapterView, view, position, id ->
             run {
                 Log.i("myTag", "Opening group chat at position $position")
@@ -59,18 +60,21 @@ class GroupChatListActivity : AppCompatActivity() {
         ActivityLauncher.launch(this, CreateGroupActivity::class.java)
     }
 
-    private fun createListAdapter(): FirebaseListAdapter<GroupChatPreview> {
-        return object : FirebaseListAdapter<GroupChatPreview>(this, GroupChatPreview::class.java,
+    private fun createListAdapter(): FirebaseListAdapter<Groups> {
+        return object : FirebaseListAdapter<Groups>(this, Groups::class.java,
                 R.layout.item_group_chat_preview, FirebaseDatabase.getInstance().reference.child(GROUP_REF)) {
 
-            override fun populateView(v: View, groupPreview: GroupChatPreview, position: Int) {
+            override fun populateView(v: View, group: Groups, position: Int) {
                 // Get reference to the elements in GroupChatPreview.xml
                 val nameComponent = v.findViewById<TextView>(R.id.group_name)
                 val msgPreviewComponent = v.findViewById<TextView>(R.id.group_msg_preview)
                 val iconComponent = v.findViewById<ImageView>(R.id.group_icon)
 
-                nameComponent.text = groupPreview.groupName
-                msgPreviewComponent.text = groupPreview.groupMsgPreview
+                nameComponent.text = group.name
+                msgPreviewComponent.text = group
+                                            .messages
+                                            .last()
+                                            .messageUser
 
                 // TODO we should store the icon in the cloud storage
 //                val url = URL(groupPreview.groupIconPath)

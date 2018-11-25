@@ -2,7 +2,7 @@ package com.example.derinibikunle.hermes;
 import java.util.ArrayList;
 import java.util.List;
 
-class user{
+class User {
     //username is the name stored in the database, user_id is the email
     public String username;
     public String user_id;
@@ -11,8 +11,9 @@ class user{
     public String key;
 
     //for firebase?
-    user(){ }
-    user(String user_id, String key){
+    User(){ }
+
+    User(String user_id, String key){
         this.user_id = user_id;
         this.username = "";
         int i = 0;
@@ -26,7 +27,7 @@ class user{
         this.calendar_info = new ArrayList<EventObjects>();
         this.key= key;
     }
-//    user(String user_id){
+//    User(String user_id){
 //        this.user_id = user_id;
 //        this.username = "";
 //        int i = 0;
