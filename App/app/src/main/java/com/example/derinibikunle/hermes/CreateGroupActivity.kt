@@ -25,39 +25,36 @@ class CreateGroupActivity : AppCompatActivity() {
 
                 val group_key = mDataBase.child("groups").push().key
                 mDataBase.child("groups").child(group_key!!).setValue(newGroup)
-
-
-                Log.e("the fucking key", group_key)
+                //add the admin
                 mDataBase.child("users").child(FirebaseAuth.getInstance().currentUser?.uid!!).child("group_ids").push().setValue(group_key)
+                //add the group to the members
+                for(data in newGroup.get_members()){
+                    mDataBase.child("users").child(data).child("group_ids").push().setValue(group_key)
+
+                }
             }
-
-
+            ActivityLauncher.launch(this, GroupChatListActivity::class.java)
         }
         val addUserButton = findViewById<Button>(R.id.add_user_button)
-        addUserButton.setOnClickListener{
-           // val mDataBase = FirebaseDatabase.getInstance().reference.child("users")
-
+        addUserButton.setOnClickListener {
             val user_name = user_name_input.text.toString()
-            newGroup.add_member(user_name)
-//            val userListener = object: ValueEventListener {
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    //go through and find the user id, ad it to user list
-//                   for(data in snapshot.children){
-//                       if(data.hasChild(user_name))
-//                       {
-//                          val user_id = data.child("key").getValue()
-//                           //newGroup.add_member(user_id.toString())
-//                       }
-//
-//                   }
-//
-//                }
-//                override fun onCancelled(p0: DatabaseError) {
-//
-//                }
-//            }
-//            mDataBase.addValueEventListener(userListener)
+            val mDataBase = FirebaseDatabase.getInstance().reference.child("users")
+            val listener = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (data in snapshot.children) {
+                        if (data.child("user_id").getValue(String::class.java) == user_name) {
+                            val key = data.key
+                            newGroup.add_member(key)
+                            break
+                        }
+                    }
+                }
 
+                override fun onCancelled(p0: DatabaseError) {
+                }
+            }
+            mDataBase.addValueEventListener(listener)
+            user_name_input.setText("")
         }
     }
 }
