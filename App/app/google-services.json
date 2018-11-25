@@ -23,6 +23,22 @@
           }
         },
         {
+          "client_id": "301376980762-1uv2i24crmqe2ppeefg8iet77c6nq762.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.derinibikunle.hermes",
+            "certificate_hash": "943aa14b8fd6b80c1780f8e8c8f4c19d5ae284b7"
+          }
+        },
+        {
+          "client_id": "301376980762-2tecpbprrcdk1nvn80ms1u2i0kiq4sp2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.derinibikunle.hermes",
+            "certificate_hash": "17accb58e713b0d0c97ef49e560d63763be3548b"
+          }
+        },
+        {
           "client_id": "301376980762-1idlc2kt3t0cfg1270bi5h3ldp2p4jp4.apps.googleusercontent.com",
           "client_type": 3
         }
