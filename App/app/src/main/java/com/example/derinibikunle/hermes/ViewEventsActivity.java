@@ -43,10 +43,12 @@ public class ViewEventsActivity extends AppCompatActivity {
 
         static void setGroupPath(String groupId) {
             if(groupId!=null)
-                GROUP_PATH = "groups/"+groupId+"calendar_info";
+                GROUP_PATH = "groups/"+groupId+"/calendar_info";
             else
                 GROUP_PATH = "users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/calendar_info";
         }
+
+        static String GROUP_ID;
 
 
 
@@ -54,6 +56,8 @@ public class ViewEventsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_events);
+        GROUP_ID = getIntent().getStringExtra(GROUP_ID_KEY);
+        setGroupPath(GROUP_ID);
 
         Bundle bundle = getIntent().getExtras();
         int position = bundle.getInt("position");
@@ -95,7 +99,7 @@ public class ViewEventsActivity extends AppCompatActivity {
                     eventsToday.setText("Your events today are: ");
                     AdapterEventObjects adapter;
 
-                    adapter = new AdapterEventObjects(ViewEventsActivity.this, 0, (ArrayList<EventObjects>) list);
+                    adapter = new AdapterEventObjects(ViewEventsActivity.this, 0, (ArrayList<EventObjects>) list, GROUP_PATH);
                     eventList.setAdapter(adapter);
                 }
             }

@@ -30,18 +30,18 @@ import static com.example.derinibikunle.hermes.DatabaseQuery.getuid;
 public class GridAdapter extends ArrayAdapter {
 
 
-    /* Constants */
-    static String GROUP_ID_KEY = "groupId";
-
-    /* Sets up the path pointing to the messages of the group chat */
-    static String GROUP_PATH = "";
-
-    static void setGroupPath(String groupId) {
-        if(groupId!=null)
-            GROUP_PATH = "groups/"+groupId+"calendar_info";
-        else
-            GROUP_PATH = "users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/calendar_info";
-    }
+//    /* Constants */
+//    static String GROUP_ID_KEY = "groupId";
+//
+//    /* Sets up the path pointing to the messages of the group chat */
+//    static String GROUP_PATH = "";
+//
+//    static void setGroupPath(String groupId) {
+//        if(groupId!=null)
+//            GROUP_PATH = "groups/"+groupId+"calendar_info";
+//        else
+//            GROUP_PATH = "users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/calendar_info";
+ //   }
 
 
 
@@ -50,13 +50,15 @@ public class GridAdapter extends ArrayAdapter {
     private List<Date> monthlyDates;
     private Calendar currentDate;
     private List<EventObjects> allEvents;
+    private String path;
 
-    public GridAdapter(Context context, List<Date> monthlyDates, Calendar currentDate, List<EventObjects> allEvents) {
+    public GridAdapter(Context context, List<Date> monthlyDates, Calendar currentDate, List<EventObjects> allEvents, String path) {
         super(context, R.layout.single_cell_layout);
         this.monthlyDates = monthlyDates;
         this.currentDate = currentDate;
         this.allEvents = allEvents;
         mInflater = LayoutInflater.from(context);
+        this.path= path;
     }
     @NonNull
     @Override
@@ -92,7 +94,7 @@ public class GridAdapter extends ArrayAdapter {
 //            }
 //        }
 
-        DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference().child(GROUP_PATH);
+        DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference().child(path);
         mDataBase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

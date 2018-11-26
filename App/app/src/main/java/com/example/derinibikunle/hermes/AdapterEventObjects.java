@@ -36,27 +36,29 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
     private ArrayList<EventObjects> lEvents;
     private static LayoutInflater inflater = null;
     private Context context = this.getContext();
+    private String path;
 
-    /* Constants */
-    static String GROUP_ID_KEY = "groupId";
+//    /* Constants */
+//    static String GROUP_ID_KEY = "groupId";
+//
+//    /* Sets up the path pointing to the messages of the group chat */
+//    static String GROUP_PATH = "";
+//
+//    static void setGroupPath(String groupId) {
+//        if(groupId!=null)
+//            GROUP_PATH = "groups/"+groupId+"calendar_info";
+//        else
+//            GROUP_PATH = "users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/calendar_info";
+//    }
 
-    /* Sets up the path pointing to the messages of the group chat */
-    static String GROUP_PATH = "";
-
-    static void setGroupPath(String groupId) {
-        if(groupId!=null)
-            GROUP_PATH = "groups/"+groupId+"calendar_info";
-        else
-            GROUP_PATH = "users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/calendar_info";
-    }
 
 
-
-    public AdapterEventObjects (Activity activity, int textViewResourceId, ArrayList<EventObjects> _lEvents) {
+    public AdapterEventObjects (Activity activity, int textViewResourceId, ArrayList<EventObjects> _lEvents, String path) {
         super(activity, textViewResourceId, _lEvents);
         try {
             this.activity = activity;
             this.lEvents = _lEvents;
+            this.path = path;
 
             inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -115,7 +117,7 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
 //                    lEvents.remove(position);
 
 
-                    final DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference().child("users").child(getuid()).child("calendar_info");
+                    final DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference().child(path);
                     mDataBase.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

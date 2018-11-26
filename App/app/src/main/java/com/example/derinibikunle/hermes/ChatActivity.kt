@@ -130,10 +130,10 @@ class ChatActivity : AbstractAppActivity() {
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_chat)
-
-//        Log.i("myTag", intent.toString())
-//        setGroupPath(intent.getStringExtra(GROUP_ID_KEY))
+        setContentView(R.layout.activity_chat)
+        GROUP_ID = intent.getStringExtra(GROUP_ID_KEY)
+        Log.i("myTag", intent.toString())
+        setGroupPath(GROUP_ID)
 //
 //
 //        val sendMsgBtn = findViewById<FloatingActionButton>(R.id.send_msg_button)
