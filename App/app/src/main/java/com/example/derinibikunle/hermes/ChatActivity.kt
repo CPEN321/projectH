@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.Gravity
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ListView
@@ -32,7 +33,31 @@ class ChatActivity : AbstractAppActivity() {
         fun setGroupPath(groupId: String) {
             GROUP_PATH = "groups/$groupId/messages"
         }
+
+        var GROUP_ID : String = ""
     }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId)  {
+        R.id.action_group_calendar -> {
+            ActivityLauncher
+                    .addParam("groupId", GROUP_ID)
+                    .launch(this,CustomCalendarActivity::class.java)
+            true
+        }
+
+        R.id.action_add_event -> {
+            ActivityLauncher
+                    .addParam("groupId", GROUP_ID)
+                    .launch(this,SetEventActivity::class.java)
+            true
+        }
+
+        else -> {
+            /* Let the parent class handle it */
+            super.onOptionsItemSelected(item)
+        }
+    }
+
 
     //show the menu with group calendar option
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -42,15 +67,14 @@ class ChatActivity : AbstractAppActivity() {
         return true
     }
 
-
     private var adapter: FirebaseListAdapter<UserMessage>? = null
 
     override fun onResume() {
         super.onResume()
         setContentView(R.layout.activity_chat)
-
+        GROUP_ID = intent.getStringExtra(GROUP_ID_KEY)
         Log.i("myTag", intent.toString())
-        setGroupPath(intent.getStringExtra(GROUP_ID_KEY))
+        setGroupPath(GROUP_ID)
 
 
         val sendMsgBtn = findViewById<FloatingActionButton>(R.id.send_msg_button)
@@ -158,7 +182,7 @@ class ChatActivity : AbstractAppActivity() {
         return object : FirebaseListAdapter<UserMessage>(
                     this,
                     UserMessage::class.java,
-                    R.layout.item_user_message,
+                    R.layout.item_message_received,
                     FirebaseDatabase.getInstance().reference.child(GROUP_PATH)
             ) {
             override fun populateView(v: View, userMessage: UserMessage, position: Int) {

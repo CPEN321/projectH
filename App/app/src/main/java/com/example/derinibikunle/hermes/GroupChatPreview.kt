@@ -28,16 +28,14 @@ class GroupChatPreview {
 
     constructor(json: JSONObject) {
         try {
-            this.groupName=     json.getString(JSON_NAME_KEY)
-            this.groupMsgPreview =    json.getString(JSON_PREV_KEY)
-            this.groupIconPath   = ""
-            this.groupId =    json.getString(JSON_ID_KEY)
+            this.groupName= json.getString(JSON_NAME_KEY)
+            this.groupMsgPreview = json.getString(JSON_PREV_KEY)
+            this.groupIconPath = ""
+            this.groupId = json.getString(JSON_ID_KEY)
         }
-        catch(err:Error) {
+        catch(err:Exception) {
             Log.e("myTag", "Could not parse JSONNNNN")
-            throw err
         }
-
     }
 
     override fun toString():String {
