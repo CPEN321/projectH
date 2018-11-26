@@ -20,6 +20,17 @@ class Groups {
         //firebase id for group creator
         this.admin = admin_id;
     }
+    //make firebase happy
+    Groups(){
+        // What appears to users as the group name
+        this.name = "";
+        this.messages = new ArrayList<UserMessage>();
+        //firebase ids for the users
+        this.members = new ArrayList<String>();
+        this.calendar_info = new ArrayList<EventObjects>();
+        //firebase id for group creator
+        this.admin = "";
+    }
 
     //name should be the users firebase id, will have to get it from their name that they put in
     void add_member(String name){
