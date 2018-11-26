@@ -59,12 +59,17 @@ public class ViewEventsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<EventObjects> list = new ArrayList<EventObjects>();
+                Calendar today = Calendar.getInstance();
+                today.setTime(clickDate);
+
+                Calendar otherDay = Calendar.getInstance();
                 for(DataSnapshot data : dataSnapshot.getChildren()){
                     EventObjects event = data.getValue(EventObjects.class);
-                    if((event.getStartDate().getDay() == clickDate.getDay()) &&
-                            (event.getStartDate().getMonth() == clickDate.getMonth()) &&
-                            (event.getStartDate().getYear() == clickDate.getYear()))
-                                list.add(data.getValue(EventObjects.class));
+                    otherDay.setTime(event.getStartDate());
+                    if((otherDay.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)) &&
+                            (otherDay.get(Calendar.MONTH) == today.get(Calendar.MONTH)) &&
+                            (otherDay.get(Calendar.YEAR) == today.get(Calendar.YEAR)))
+                        list.add(data.getValue(EventObjects.class));
                 }
 
                 if(list.isEmpty()) {
