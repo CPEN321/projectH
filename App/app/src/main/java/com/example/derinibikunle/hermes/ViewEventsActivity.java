@@ -112,7 +112,11 @@ public class ViewEventsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CustomCalendarActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("groupId", GROUP_ID);
+                intent.putExtras(bundle);
                 context.startActivity(intent);
+
             }
         });
     }
