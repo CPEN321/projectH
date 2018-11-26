@@ -8,6 +8,7 @@ import android.widget.*
 import com.example.derinibikunle.hermes.functions.GroupListFunction
 import com.google.firebase.database.FirebaseDatabase
 import com.firebase.ui.database.FirebaseListAdapter
+import com.google.firebase.auth.FirebaseAuth
 
 
 class GroupChatListActivity : AbstractAppActivity() {
@@ -71,7 +72,7 @@ class GroupChatListActivity : AbstractAppActivity() {
             Log.e("myTag", "User is not authenticated... It should not get to GroupChatListActivity")
             GroupListFunction().getGroupPreviews("")
         }
-        else GroupListFunction().getGroupPreviews(AbstractAppActivity.currentUserId!!)
+        else GroupListFunction().getGroupPreviews(FirebaseAuth.getInstance().currentUser?.uid!!)
 
         Log.i("myTag", f.toString())
 

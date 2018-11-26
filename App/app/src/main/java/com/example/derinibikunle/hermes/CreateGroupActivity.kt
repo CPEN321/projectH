@@ -3,19 +3,22 @@ package com.example.derinibikunle.hermes
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.Toast
+import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_create_group.*
+import java.util.*
 
 class CreateGroupActivity : AppCompatActivity() {
     private val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
+    private val eList = LinkedList<String>()
+
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_add_group -> {
             val groupName = group_name_input.text.toString()
@@ -31,7 +34,6 @@ class CreateGroupActivity : AppCompatActivity() {
             //add the key to the groups for all the users
             for(data in newGroup.get_members()){
                 mDataBase.child("users").child(data).child("group_ids").push().setValue(groupKey)
-
             }
 
             ActivityLauncher.launch(this, GroupChatListActivity::class.java)
@@ -61,7 +63,7 @@ class CreateGroupActivity : AppCompatActivity() {
         val addUserButton = findViewById<Button>(R.id.add_user_button)
         addUserButton.setOnClickListener {
             val username = user_name_input.text.toString().trim()
-
+            eList.add(username)
             //get reference starting from child node
             val mDataBase = FirebaseDatabase.getInstance().reference.child("users")
             //required to read data
@@ -94,5 +96,18 @@ class CreateGroupActivity : AppCompatActivity() {
             mDataBase.addListenerForSingleValueEvent(listener)
             user_name_input.setText("")
         }
+
+        /* Set the list view items */
+        val lv = findViewById<ListView>(R.id.list_view_temp_users)
+        lv.adapter = AddUserListAdapter(this, eList)
+
+        lv.onItemClickListener = AdapterView.OnItemClickListener {
+            adapterView, view, position, id ->
+            run {
+                Log.i("myTag", "Opening group chat at position $position")
+                eList.removeAt(position)
+            }
+        }
+
     }
 }
