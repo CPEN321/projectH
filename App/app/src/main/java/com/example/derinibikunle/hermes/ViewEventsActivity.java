@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +34,20 @@ public class ViewEventsActivity extends AppCompatActivity {
     private Button doneButton;
     private TextView eventsToday;
     private Context context = this;
+
+        /* Constants */
+        static String GROUP_ID_KEY = "groupId";
+
+        /* Sets up the path pointing to the messages of the group chat */
+        static String GROUP_PATH = "";
+
+        static void setGroupPath(String groupId) {
+            if(groupId!=null)
+                GROUP_PATH = "groups/"+groupId+"calendar_info";
+            else
+                GROUP_PATH = "users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/calendar_info";
+        }
+
 
 
     @Override
@@ -54,7 +69,7 @@ public class ViewEventsActivity extends AppCompatActivity {
 
         //find events for today
 
-        DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference().child("users").child(getuid()).child("calendar_info");
+        DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference().child(GROUP_PATH);
         mDataBase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

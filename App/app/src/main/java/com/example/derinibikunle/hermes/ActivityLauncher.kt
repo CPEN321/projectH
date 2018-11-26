@@ -13,8 +13,11 @@ class ActivityLauncher {
          */
         fun launch(packageContext: Context, cls: Class<*>) {
             val intent = Intent(packageContext, cls)
-            for(param in params)
+            for(param in params) {
                 intent.putExtra(param.first, param.second)
+                params.removeFirst()
+            }
+
             packageContext.startActivity(intent)
         }
 

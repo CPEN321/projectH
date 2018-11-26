@@ -45,9 +45,8 @@ class ChatActivity : AbstractAppActivity() {
 
     private var adapter: FirebaseListAdapter<UserMessage>? = null
 
-    @SuppressLint("SimpleDateFormat")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         setContentView(R.layout.activity_chat)
 
         Log.i("myTag", intent.toString())
@@ -72,6 +71,65 @@ class ChatActivity : AbstractAppActivity() {
         val messageView = findViewById<ListView>(R.id.list_of_messages)
         adapter = createListAdapter()
         messageView.adapter = adapter
+    }
+
+    override fun onStart() {
+        super.onStart()
+//        setContentView(R.layout.activity_chat)
+//
+//        Log.i("myTag", intent.toString())
+//        setGroupPath(intent.getStringExtra(GROUP_ID_KEY))
+//
+//
+//        val sendMsgBtn = findViewById<FloatingActionButton>(R.id.send_msg_button)
+//        sendMsgBtn.setOnClickListener {
+//            /* Assign a date and text to every message sent */
+//            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+//            val currentDate = sdf.format(Date())
+//            val chatText = findViewById<EditText>(R.id.chat_input_text)
+//
+//            /* Update the database with the new message */
+//            sendMessage(chatText.text.toString(), currentDate)
+//
+//            /* The User needs to have a clean input field after every event */
+//            chatText.setText("")
+//        }
+//
+//        /* Set up the message list */
+//        val messageView = findViewById<ListView>(R.id.list_of_messages)
+//        adapter = createListAdapter()
+//        messageView.adapter = adapter
+    }
+
+
+
+    @SuppressLint("SimpleDateFormat")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //setContentView(R.layout.activity_chat)
+
+//        Log.i("myTag", intent.toString())
+//        setGroupPath(intent.getStringExtra(GROUP_ID_KEY))
+//
+//
+//        val sendMsgBtn = findViewById<FloatingActionButton>(R.id.send_msg_button)
+//        sendMsgBtn.setOnClickListener {
+//            /* Assign a date and text to every message sent */
+//            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+//            val currentDate = sdf.format(Date())
+//            val chatText = findViewById<EditText>(R.id.chat_input_text)
+//
+//            /* Update the database with the new message */
+//            sendMessage(chatText.text.toString(), currentDate)
+//
+//            /* The User needs to have a clean input field after every event */
+//            chatText.setText("")
+//        }
+//
+//        /* Set up the message list */
+//        val messageView = findViewById<ListView>(R.id.list_of_messages)
+//        adapter = createListAdapter()
+//        messageView.adapter = adapter
     }
 
     private fun sendMessage(chatText: String, currentDate: String) {

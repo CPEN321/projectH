@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +25,26 @@ import java.util.List;
 
 import static com.example.derinibikunle.hermes.DatabaseQuery.getuid;
 
+
+
 public class GridAdapter extends ArrayAdapter {
+
+
+    /* Constants */
+    static String GROUP_ID_KEY = "groupId";
+
+    /* Sets up the path pointing to the messages of the group chat */
+    static String GROUP_PATH = "";
+
+    static void setGroupPath(String groupId) {
+        if(groupId!=null)
+            GROUP_PATH = "groups/"+groupId+"calendar_info";
+        else
+            GROUP_PATH = "users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/calendar_info";
+    }
+
+
+
     private static final String TAG = GridAdapter.class.getSimpleName();
     private LayoutInflater mInflater;
     private List<Date> monthlyDates;
@@ -72,7 +92,7 @@ public class GridAdapter extends ArrayAdapter {
 //            }
 //        }
 
-        DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference().child("users").child(getuid()).child("calendar_info");
+        DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference().child(GROUP_PATH);
         mDataBase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

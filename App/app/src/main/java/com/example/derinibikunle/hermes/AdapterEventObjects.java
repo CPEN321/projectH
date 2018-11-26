@@ -22,6 +22,7 @@ import java.util.List;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +36,21 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
     private ArrayList<EventObjects> lEvents;
     private static LayoutInflater inflater = null;
     private Context context = this.getContext();
+
+    /* Constants */
+    static String GROUP_ID_KEY = "groupId";
+
+    /* Sets up the path pointing to the messages of the group chat */
+    static String GROUP_PATH = "";
+
+    static void setGroupPath(String groupId) {
+        if(groupId!=null)
+            GROUP_PATH = "groups/"+groupId+"calendar_info";
+        else
+            GROUP_PATH = "users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/calendar_info";
+    }
+
+
 
     public AdapterEventObjects (Activity activity, int textViewResourceId, ArrayList<EventObjects> _lEvents) {
         super(activity, textViewResourceId, _lEvents);

@@ -142,7 +142,7 @@ public class SetEventActivity extends AppCompatActivity {
                                         }
                                         else if(numRepeats > 4)
                                         {
-                                            Toast.makeText(context, "Please only repeat events for a month!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(context, "Please only repeat events for a month", Toast.LENGTH_LONG).show();
                                         }
                                         else {
                                             int noOfDays = 7; //i.e one week
