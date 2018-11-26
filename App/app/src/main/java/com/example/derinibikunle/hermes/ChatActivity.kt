@@ -199,7 +199,7 @@ class ChatActivity : AbstractAppActivity() {
                 var v = view
                 val model = getItem(position)
                // if (v == null) {
-                    if(model.messageUser.equals(AbstractAppActivity.currentUserEmail))
+                    if(model.messageUser.equals(FirebaseAuth.getInstance().currentUser?.email!!))
                         v = mActivity.layoutInflater.inflate(R.layout.item_message_sent, viewGroup, false)
                     else {
                         v = mActivity.layoutInflater.inflate(R.layout.item_message_received, viewGroup, false)
