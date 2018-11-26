@@ -27,6 +27,11 @@ abstract class AbstractAppActivity: AppCompatActivity() {
             true
         }
 
+        R.id.action_group_calendar -> {
+            ActivityLauncher.launch(this,CustomCalendarActivity::class.java)
+            true
+        }
+
         R.id.action_calendar -> {
             // User chose the "Favorite" action, mark the current item
             // as a favorite...
