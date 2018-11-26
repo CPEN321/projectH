@@ -19,9 +19,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChatActivity" />
-        <activity android:name=".CalendarActivity" />
+        <activity android:name=".CustomCalendarActivity" />
         <activity android:name=".GroupChatListActivity" />
         <activity android:name=".CreateGroupActivity" />
+        <activity android:name=".SetEventActivity"/>
+        <activity android:name=".ViewEventsActivity"/>
     </application>
 
 </manifest>
