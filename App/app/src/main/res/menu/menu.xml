@@ -6,14 +6,14 @@
         android:id="@+id/action_calendar"
         android:icon="@drawable/baseline_calendar_today_black_36"
         android:title="Calendar"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item
         android:id="@+id/action_chats"
         android:icon="@drawable/baseline_message_black_36"
         android:title="Chats"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <!-- Settings, should always be in the overflow -->
     <item

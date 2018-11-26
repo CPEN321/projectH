@@ -1,13 +1,12 @@
 package com.example.derinibikunle.hermes
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.*
 import com.google.firebase.database.FirebaseDatabase
 import com.firebase.ui.database.FirebaseListAdapter
-
 
 
 class GroupChatListActivity : AbstractAppActivity() {
@@ -19,9 +18,14 @@ class GroupChatListActivity : AbstractAppActivity() {
     private var adapter: FirebaseListAdapter<Groups>? = null
 //    private var storageRef: StorageReference
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+        activateIconColor(menu, R.id.action_chats)
+        return true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_group_chat_list)
         setupAddGrpButton()
         setupGroupListView()
@@ -62,7 +66,7 @@ class GroupChatListActivity : AbstractAppActivity() {
 
     private fun createListAdapter(): FirebaseListAdapter<Groups> {
         return object : FirebaseListAdapter<Groups>(this, Groups::class.java,
-                R.layout.item_group_chat_preview, FirebaseDatabase.getInstance().reference.child("groups")) {
+                R.layout.item_group_chat_preview, FirebaseDatabase.getInstance().reference.child(GROUP_REF)) {
 
             override fun populateView(v: View, group: Groups, position: Int) {
                 // Get reference to the elements in GroupChatPreview.xml
@@ -71,10 +75,10 @@ class GroupChatListActivity : AbstractAppActivity() {
                 val iconComponent = v.findViewById<ImageView>(R.id.group_icon)
 
                 nameComponent.text = group.name
-                msgPreviewComponent.text = group
-                                            .messages
-                                            .last()
-                                            .messageUser
+//                msgPreviewComponent.text = group
+//                                            .messages
+//                                            .last()
+//                                            .messageUser
 
                 // TODO we should store the icon in the cloud storage
 //                val url = URL(groupPreview.groupIconPath)

@@ -8,6 +8,8 @@
     <string name="start_time_input_default">Enter Start Time in 24Hr Format (HH:MM) </string>
     <string name="end_time_input_default">Enter End Time in 24Hr Format (HH:MM) </string>
     <string name="create_event">CREATE EVENT</string>
+    <string name="default_notification_channel_id">channel_ID</string>
+    <string name="fcm_message">hey</string>
 
     <string name="done">DONE</string>
 
