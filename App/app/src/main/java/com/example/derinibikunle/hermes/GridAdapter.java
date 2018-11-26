@@ -10,9 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static com.example.derinibikunle.hermes.DatabaseQuery.getuid;
+
 public class GridAdapter extends ArrayAdapter {
     private static final String TAG = GridAdapter.class.getSimpleName();
     private LayoutInflater mInflater;
@@ -33,9 +44,9 @@ public class GridAdapter extends ArrayAdapter {
         Date mDate = monthlyDates.get(position);
         Calendar dateCal = Calendar.getInstance();
         dateCal.setTime(mDate);
-        int dayValue = dateCal.get(Calendar.DAY_OF_MONTH);
-        int displayMonth = dateCal.get(Calendar.MONTH) + 1;
-        int displayYear = dateCal.get(Calendar.YEAR);
+        final int dayValue = dateCal.get(Calendar.DAY_OF_MONTH);
+       final int displayMonth = dateCal.get(Calendar.MONTH) + 1;
+       final int displayYear = dateCal.get(Calendar.YEAR);
         int currentMonth = currentDate.get(Calendar.MONTH) + 1;
         int currentYear = currentDate.get(Calendar.YEAR);
         View view = convertView;
@@ -51,15 +62,41 @@ public class GridAdapter extends ArrayAdapter {
         TextView cellNumber = (TextView)view.findViewById(R.id.calendar_date_id);
         cellNumber.setText(String.valueOf(dayValue));
         //Add events to the calendar
-        TextView eventIndicator = (TextView)view.findViewById(R.id.event_id);
-        Calendar eventCalendar = Calendar.getInstance();
-        for(int i = 0; i < allEvents.size(); i++){
-            eventCalendar.setTime(allEvents.get(i).getStartDate());
-            if(dayValue == eventCalendar.get(Calendar.DAY_OF_MONTH) && displayMonth == eventCalendar.get(Calendar.MONTH) + 1
-                    && displayYear == eventCalendar.get(Calendar.YEAR)){
-                eventIndicator.setBackgroundColor(Color.parseColor("#000000"));
+        final TextView eventIndicator = (TextView)view.findViewById(R.id.event_id);
+       final Calendar eventCalendar = Calendar.getInstance();
+//        for(int i = 0; i < allEvents.size(); i++){
+//            eventCalendar.setTime(allEvents.get(i).getStartDate());
+//            if(dayValue == eventCalendar.get(Calendar.DAY_OF_MONTH) && displayMonth == eventCalendar.get(Calendar.MONTH) + 1
+//                    && displayYear == eventCalendar.get(Calendar.YEAR)){
+//                eventIndicator.setBackgroundColor(Color.parseColor("#000000"));
+//            }
+//        }
+
+        DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference().child("users").child(getuid()).child("calendar_info");
+        mDataBase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<EventObjects> list = new ArrayList<EventObjects>();
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    list.add(data.getValue(EventObjects.class));
+                }
+//
+
+               // EventObjects e = new EventObjects();
+                for(int i = 0; i < list.size(); i++){
+                    eventCalendar.setTime(list.get(i).getStartDate());
+                    if(dayValue == eventCalendar.get(Calendar.DAY_OF_MONTH) && displayMonth == eventCalendar.get(Calendar.MONTH) + 1
+                            && displayYear == eventCalendar.get(Calendar.YEAR)){
+                        eventIndicator.setBackgroundColor(Color.parseColor("#000000"));
+                    }
+                }
             }
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+
         return view;
 
     }

@@ -3,7 +3,10 @@ package com.example.derinibikunle.hermes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.EventLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +15,20 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import android.content.Context;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import static com.example.derinibikunle.hermes.DatabaseQuery.getuid;
 
 public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
     private Activity activity;
@@ -80,8 +95,29 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
             holder.delete_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DatabaseQuery.removeFromDb(lEvents.get(position));
-                    lEvents.remove(position);
+//                    DatabaseQuery.removeFromDb(lEvents.get(position));
+//                    lEvents.remove(position);
+
+
+                    final DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference().child("users").child(getuid()).child("calendar_info");
+                    mDataBase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            List<EventObjects> list = new ArrayList<EventObjects>();
+                            for(DataSnapshot data : dataSnapshot.getChildren()) {
+                                if (lEvents.get(position).getName().equals(data.getValue(EventObjects.class).getName()) &&
+                                lEvents.get(position).getStartDate().equals(data.getValue(EventObjects.class).getStartDate()) &&
+                                lEvents.get(position).getEndDate().equals(data.getValue(EventObjects.class).getEndDate())) {
+                                    String key = data.getKey();
+                                    mDataBase.child(key).removeValue();
+                                }
+                            }
+
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
                     Toast.makeText(context, "Event deleted!", Toast.LENGTH_LONG).show();
 
                     Intent intent = new Intent(context, CustomCalendarActivity.class);

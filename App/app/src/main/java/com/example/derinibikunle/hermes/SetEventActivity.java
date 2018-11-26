@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.SimpleCursorTreeAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +18,10 @@ public class SetEventActivity extends AppCompatActivity {
     private TextView eventDate;
     private TextView startTime;
     private TextView endTime;
+    private TextView repeatNum;
     private Button makeEvent;
+    private CheckBox repeatCheck;
+    private boolean repeat = false;
 
     private int timeSize = 2;
     private int dateSize = 3;
@@ -44,6 +48,8 @@ public class SetEventActivity extends AppCompatActivity {
     private int endHour;
     private int endMinute;
 
+    private int numRepeats;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +61,16 @@ public class SetEventActivity extends AppCompatActivity {
         startTime = (EditText)findViewById(R.id.event_input_start_time);
         endTime = (EditText)findViewById(R.id.event_input_end_time);
         makeEvent = (Button)findViewById(R.id.add_event);
+        repeatCheck = (CheckBox)findViewById(R.id.checkbox_repeat);
+        repeatNum = (EditText)findViewById(R.id.number_of_repeats);
+
+        repeatCheck.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   repeat = true;
+               }
+           }
+        );
 
         makeEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,11 +133,54 @@ public class SetEventActivity extends AppCompatActivity {
                                 Toast.makeText(context, "Start minute must be between 0 and 59.", Toast.LENGTH_LONG).show();
                             }
                             else {
-                                startDate = getDate(startYear, startMonth, startDay, startHour, startMinute);
-                                endDate = getDate(endYear, endMonth, endDay, endHour, endMinute);
+                                if(repeat) {
+                                    //do the reapeating
+                                    try {
+                                        numRepeats = Integer.parseInt(repeatNum.getText().toString());
+                                        if(numRepeats < 1) {
+                                            Toast.makeText(context, "Please enter valid number of repeat weeks!", Toast.LENGTH_LONG).show();
+                                        }
+                                        else if(numRepeats > 4)
+                                        {
+                                            Toast.makeText(context, "Please only repeat events for a month!", Toast.LENGTH_LONG).show();
+                                        }
+                                        else {
+                                            int noOfDays = 7; //i.e one week
 
-                                DatabaseQuery.pushToDb(new EventObjects(name, startDate, endDate));
-                                Toast.makeText(context, "Event Added!", Toast.LENGTH_LONG).show();
+                                            startDate = getDate(startYear, startMonth, startDay, startHour, startMinute);
+                                            endDate = getDate(endYear, endMonth, endDay, endHour, endMinute);
+
+                                            DatabaseQuery.pushToDb(new EventObjects(name, startDate, endDate));
+                                            Toast.makeText(context, "Event Added!", Toast.LENGTH_LONG).show();
+
+                                            for (int i = 0; i < (numRepeats - 1); i++) {
+
+                                                Calendar calendar = Calendar.getInstance();
+                                                calendar.setTime(startDate);
+                                                calendar.add(Calendar.DAY_OF_YEAR, noOfDays);
+                                                Date newStartDate = calendar.getTime();
+                                                calendar.setTime(endDate);
+                                                calendar.add(Calendar.DAY_OF_YEAR, noOfDays);
+                                                Date newEndDate = calendar.getTime();
+
+                                                startDate = newStartDate;
+                                                endDate = newEndDate;
+
+                                                DatabaseQuery.pushToDb(new EventObjects(name, startDate, endDate));
+                                                Toast.makeText(context, "Event Added!", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        Toast.makeText(context, "Please enter valid number of repeat weeks!", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                                else {
+                                    startDate = getDate(startYear, startMonth, startDay, startHour, startMinute);
+                                    endDate = getDate(endYear, endMonth, endDay, endHour, endMinute);
+
+                                    DatabaseQuery.pushToDb(new EventObjects(name, startDate, endDate));
+                                    Toast.makeText(context, "Event Added!", Toast.LENGTH_LONG).show();
+                                }
                             }
                         } catch (Exception e) {
                             Toast.makeText(context, "Please enter date and times in specified format.", Toast.LENGTH_LONG).show();
@@ -148,7 +207,7 @@ public class SetEventActivity extends AppCompatActivity {
     public static Date getDate(int year, int month, int day, int hour, int minute) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.MONTH, month-1);
         cal.set(Calendar.DAY_OF_MONTH, day);
         cal.set(Calendar.HOUR_OF_DAY, hour);
         cal.set(Calendar.MINUTE, minute);

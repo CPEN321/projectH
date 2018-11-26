@@ -15,26 +15,25 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_create_group.*
 
 class CreateGroupActivity : AppCompatActivity() {
-
+    private val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_add_group -> {
-            val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
             val groupName = group_name_input.text.toString()
-            if(groupName != null){
-                newGroup.set_group_name(groupName)
-                val mDataBase = FirebaseDatabase.getInstance().reference
-                //get the next key to add to the list
-                val group_key = mDataBase.child("groups").push().key
-                //add the group to the key
-                mDataBase.child("groups").child(group_key!!).setValue(newGroup)
-                //add the key to groups for the admin
-                mDataBase.child("users").child(FirebaseAuth.getInstance().currentUser?.uid!!).child("group_ids").push().setValue(group_key)
-                //add the key to the groups for all the users
-                for(data in newGroup.get_members()){
-                    mDataBase.child("users").child(data).child("group_ids").push().setValue(group_key)
 
-                }
+            newGroup.set_group_name(groupName)
+            val mDataBase = FirebaseDatabase.getInstance().reference
+            //get the next key to add to the list
+            val groupKey = mDataBase.child("groups").push().key
+            //add the group to the key
+            mDataBase.child("groups").child(groupKey!!).setValue(newGroup)
+            //add the key to groups for the admin
+            mDataBase.child("users").child(FirebaseAuth.getInstance().currentUser?.uid!!).child("group_ids").push().setValue(groupKey)
+            //add the key to the groups for all the users
+            for(data in newGroup.get_members()){
+                mDataBase.child("users").child(data).child("group_ids").push().setValue(groupKey)
+
             }
+
             ActivityLauncher.launch(this, GroupChatListActivity::class.java)
             true
         }
@@ -55,13 +54,14 @@ class CreateGroupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //create the group with the current user as the admin
-        val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
+        //val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
         setContentView(R.layout.activity_create_group)
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         val addUserButton = findViewById<Button>(R.id.add_user_button)
         addUserButton.setOnClickListener {
-            val username = user_name_input.text.toString()
+            val username = user_name_input.text.toString().trim()
+
             //get reference starting from child node
             val mDataBase = FirebaseDatabase.getInstance().reference.child("users")
             //required to read data
@@ -74,13 +74,17 @@ class CreateGroupActivity : AppCompatActivity() {
                             val key = data.key
                             //add the user key to the member list of the group
                             newGroup.add_member(key)
+                            val toast = Toast.makeText(this@CreateGroupActivity, "User "+ username +" Added!", Toast.LENGTH_SHORT)
+                            val v = toast.view
+                            v.setBackgroundColor(Color.rgb(0xff, 0xb2, 0x5f))
+                            toast.show()
                             return
                         }
                     }
                     //if you find nothing tell the user the email is invalid
                     val toast = Toast.makeText(this@CreateGroupActivity, "Invalid User Email", Toast.LENGTH_SHORT)
                     val v = toast.view
-                    v.setBackgroundColor(Color.rgb(252, 17, 88))
+                    v.setBackgroundColor(Color.rgb(0xff, 0xb2, 0x5f))
                     toast.show()
                 }
 

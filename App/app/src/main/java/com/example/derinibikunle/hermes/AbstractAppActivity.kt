@@ -12,7 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 abstract class AbstractAppActivity: AppCompatActivity() {
 
-
     companion object {
         private var currentUserInstance = FirebaseAuth.getInstance().currentUser
 
@@ -29,13 +28,17 @@ abstract class AbstractAppActivity: AppCompatActivity() {
         }
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> {
             // User chose the "Settings" item, show the app settings UI...
             AuthUI.getInstance().signOut(this).addOnCompleteListener {
                 ActivityLauncher.launch(this, MainActivity::class.java)
             }
+            true
+        }
+
+        R.id.action_group_calendar -> {
+            ActivityLauncher.launch(this,CustomCalendarActivity::class.java)
             true
         }
 
