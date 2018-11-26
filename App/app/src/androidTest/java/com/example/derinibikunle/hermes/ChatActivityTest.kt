@@ -1,6 +1,5 @@
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import com.example.derinibikunle.hermes.R
 import com.example.derinibikunle.hermes.ChatActivity
 import org.junit.Test
 import org.junit.runner.RunWith
