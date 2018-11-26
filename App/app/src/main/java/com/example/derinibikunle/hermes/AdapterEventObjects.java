@@ -91,6 +91,7 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
             holder.display_start_date.setText(lEvents.get(position).getStartDate().toString());
             holder.display_end_date.setText(lEvents.get(position).getEndDate().toString());
 
+            Toast.makeText(context, "numberrrr is: " + position, Toast.LENGTH_LONG).show();
 
             holder.delete_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,7 +106,10 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             List<EventObjects> list = new ArrayList<EventObjects>();
                             for(DataSnapshot data : dataSnapshot.getChildren()) {
-                                if (lEvents.get(position) == data.getValue(EventObjects.class)) {
+                                if (lEvents.get(position).getName().equals(data.getValue(EventObjects.class).getName()) &&
+                                lEvents.get(position).getStartDate().equals(data.getValue(EventObjects.class).getStartDate()) &&
+                                lEvents.get(position).getEndDate().equals(data.getValue(EventObjects.class).getEndDate())) {
+                                    Toast.makeText(context, "Position is: " + position, Toast.LENGTH_LONG).show();
                                     String key = data.getKey();
                                     mDataBase.child(key).removeValue();
                                 }
@@ -122,9 +126,6 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
                     context.startActivity(intent);
                 }
             });
-
-
-
 
 
         } catch (Exception e) {
