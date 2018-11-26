@@ -198,14 +198,14 @@ class ChatActivity : AbstractAppActivity() {
             override fun getView(position : Int, view : View?, viewGroup: ViewGroup): View {
                 var v = view
                 val model = getItem(position)
-                if (v == null) {
+               // if (v == null) {
                     if(model.messageUser.equals(AbstractAppActivity.currentUserEmail))
                         v = mActivity.layoutInflater.inflate(R.layout.item_message_sent, viewGroup, false)
                     else {
                         v = mActivity.layoutInflater.inflate(R.layout.item_message_received, viewGroup, false)
                         v.findViewById<TextView>(R.id.message_user).text = model.messageUser
                     }
-                }
+               // }
 
                 // Call out to subclass to marshall this model into the provided view
                 populateView(v!!, model, position)
