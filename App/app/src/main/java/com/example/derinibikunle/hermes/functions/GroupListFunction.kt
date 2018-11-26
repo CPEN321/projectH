@@ -27,8 +27,8 @@ class GroupListFunction {
                 resp = try {
                     connection.connect()
                     connection.inputStream.use { it.reader().use { reader -> reader.readText() } }
-                } catch(err: Error) {
-                    ""
+                } catch(err: Exception) {
+                    "[]"
                 } finally {
                     connection.disconnect()
                 }
@@ -86,7 +86,7 @@ class GroupListFunction {
         return try {
             task.get()
         }
-        catch(err:Error) {
+        catch(err:Exception) {
             LinkedList()
         }
     }
@@ -101,7 +101,7 @@ class GroupListFunction {
         val f = try {
             task.get()
         }
-        catch(err:Error) {
+        catch(err:Exception) {
             GroupChatPreview()
         }
 
