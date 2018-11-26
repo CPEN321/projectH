@@ -54,8 +54,9 @@ class GroupChatListActivity : AbstractAppActivity() {
             run {
                 Log.i("myTag", "Opening group chat at position $position")
                 ActivityLauncher
-                        .addParam("groupId", "1")
+                        .addParam("groupId", view.findViewById<TextView>(R.id.group_id).text.toString())
                         .launch(this, ChatActivity::class.java)
+                        Log.e("groupID", view.findViewById<TextView>(R.id.group_id).text.toString())
             }
         }
     }

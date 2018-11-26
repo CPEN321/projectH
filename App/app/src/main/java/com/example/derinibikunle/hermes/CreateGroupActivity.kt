@@ -91,7 +91,7 @@ class CreateGroupActivity : AppCompatActivity() {
                 override fun onCancelled(p0: DatabaseError) {
                 }
             }
-            mDataBase.addValueEventListener(listener)
+            mDataBase.addListenerForSingleValueEvent(listener)
             user_name_input.setText("")
         }
     }

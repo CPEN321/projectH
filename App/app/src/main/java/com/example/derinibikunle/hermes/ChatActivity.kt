@@ -30,7 +30,7 @@ class ChatActivity : AbstractAppActivity() {
         var GROUP_PATH: String = ""
 
         fun setGroupPath(groupId: String) {
-            GROUP_PATH = "Groups/$groupId/chat_log"
+            GROUP_PATH = "groups/$groupId/messages"
         }
     }
 
