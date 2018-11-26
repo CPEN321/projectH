@@ -1,15 +1,12 @@
 package com.example.derinibikunle.hermes
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
-import android.view.Gravity
 import android.view.Menu
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ListView
 import com.google.firebase.auth.FirebaseAuth
@@ -102,25 +99,35 @@ class ChatActivity : AbstractAppActivity() {
                     UserMessage::class.java,
                     R.layout.item_message_received,
                     FirebaseDatabase.getInstance().reference.child(GROUP_PATH)
-            ) {
+        ) {
             override fun populateView(v: View, userMessage: UserMessage, position: Int) {
                 // Get references to the views of item_user_message.xml
                 val messageText = v.findViewById<TextView>(R.id.message_text)
-                val messageUser = v.findViewById<TextView>(R.id.message_user)
+//                val messageUser = v.findViewById<TextView>(R.id.message_user)
                 val messageTime = v.findViewById<TextView>(R.id.message_date)
 
                 // Set their text
                 messageText.text = userMessage.messageText
-                messageUser.text = userMessage.messageUser
+//                messageUser.text = userMessage.messageUser
                 messageTime.text = userMessage.messageDate
 
-                // Log.i("myTag", userMessage.messageUser + " AND " + currentUserEmail)
-                if(userMessage.messageUser.equals(AbstractAppActivity.currentUserEmail)) {
-                        // Log.i("myTag", "Switching to the right")
-                        messageText.gravity = Gravity.END
-                        messageUser.gravity = Gravity.RIGHT
-                        messageTime.gravity = Gravity.RIGHT
+            }
+
+            override fun getView(position : Int, view : View?, viewGroup: ViewGroup): View {
+                var v = view
+                val model = getItem(position)
+                if (v == null) {
+                    if(model.messageUser.equals(AbstractAppActivity.currentUserEmail))
+                        v = mActivity.layoutInflater.inflate(R.layout.item_message_sent, viewGroup, false)
+                    else {
+                        v = mActivity.layoutInflater.inflate(R.layout.item_message_received, viewGroup, false)
+                        v.findViewById<TextView>(R.id.message_user).text = model.messageUser
+                    }
                 }
+
+                // Call out to subclass to marshall this model into the provided view
+                populateView(v!!, model, position)
+                return v!!
             }
         }
     }
