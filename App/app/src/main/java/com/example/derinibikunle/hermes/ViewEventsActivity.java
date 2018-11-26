@@ -60,15 +60,19 @@ public class ViewEventsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<EventObjects> list = new ArrayList<EventObjects>();
                 for(DataSnapshot data : dataSnapshot.getChildren()){
-                    list.add(data.getValue(EventObjects.class));
+                    EventObjects event = data.getValue(EventObjects.class);
+                    if((event.getStartDate().getDay() == clickDate.getDay()) &&
+                            (event.getStartDate().getMonth() == clickDate.getMonth()) &&
+                            (event.getStartDate().getYear() == clickDate.getYear()))
+                                list.add(data.getValue(EventObjects.class));
                 }
 
-                for(EventObjects event:list) {
-                    if((event.getStartDate().getDay() != clickDate.getDay()) ||
-                            (event.getStartDate().getMonth() != clickDate.getMonth()) ||
-                            (event.getStartDate().getYear() != clickDate.getYear()))
-                        list.remove(event);
-                }
+//                for(EventObjects event:list) {
+//                    if((event.getStartDate().getDay() != clickDate.getDay()) ||
+//                            (event.getStartDate().getMonth() != clickDate.getMonth()) ||
+//                            (event.getStartDate().getYear() != clickDate.getYear()))
+//                        list.remove(event);
+//                }
                 if(list.isEmpty()) {
                     //show that you have no events
                     eventsToday.setText("You have no events today.");
