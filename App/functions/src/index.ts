@@ -24,6 +24,7 @@ exports.getChats = functions.https.onRequest((req, res) => {
         res.status(200).send(Object.keys(snap).map((key) => snap[key]));
     })
     .catch((err: Error) => {
+        res.status(400).send("ERROR: Your input ID is wrong");
         throw err;
     })
 });
@@ -39,10 +40,10 @@ exports.getGroupInfo = functions.https.onRequest((req, res) => {
 
     const ref = admin.database().ref()
     ref.child('groups/' + groupId).once('value', groupDatasSnapshot => {
-        const groupName = groupDatasSnapshot.val().groupName
-        const groupMsgPreview = groupDatasSnapshot.val().groupMsgPreview
+        const groupName = groupDatasSnapshot.val().name
+        const groupMsgPreview = groupDatasSnapshot.val().preview
 
-        let currGroup: GroupMsgPreview = {
+        const currGroup: GroupMsgPreview = {
             groupName,
             groupMsgPreview,
             groupId
@@ -50,6 +51,7 @@ exports.getGroupInfo = functions.https.onRequest((req, res) => {
         res.status(200).send(currGroup)
     })
     .catch((err: Error) => {
+        res.status(400).send("ERROR: Your input ID is wrong");
         throw err;
     })
 });

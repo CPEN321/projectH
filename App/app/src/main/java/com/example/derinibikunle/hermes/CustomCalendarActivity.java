@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,7 +32,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class CustomCalendarActivity extends AppCompatActivity {
+public class CustomCalendarActivity extends AbstractAppActivity {
     private static final String TAG = CustomCalendarActivity.class.getSimpleName();
     private Button previousButton, nextButton;
     private TextView thisDate;
@@ -45,6 +46,13 @@ public class CustomCalendarActivity extends AppCompatActivity {
     private GridAdapter mAdapter;
     private DatabaseQuery mQuery;
     public static List<Date> dayValueInCells;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        activateIconColor(menu, R.id.action_calendar);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

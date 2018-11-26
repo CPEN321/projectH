@@ -79,9 +79,7 @@ public class GridAdapter extends ArrayAdapter {
                 for(DataSnapshot data : dataSnapshot.getChildren()){
                     list.add(data.getValue(EventObjects.class));
                 }
-//                for(int i = 0; i < list.size(); i++){
-                Date s = SetEventActivity.getDate(2018,11,11,1,30);
-                Date e = SetEventActivity.getDate(2018,11,11,1,40);
+//
 
                // EventObjects e = new EventObjects();
                 for(int i = 0; i < list.size(); i++){

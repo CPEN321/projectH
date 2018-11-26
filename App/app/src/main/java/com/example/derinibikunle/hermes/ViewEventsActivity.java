@@ -67,12 +67,6 @@ public class ViewEventsActivity extends AppCompatActivity {
                                 list.add(data.getValue(EventObjects.class));
                 }
 
-//                for(EventObjects event:list) {
-//                    if((event.getStartDate().getDay() != clickDate.getDay()) ||
-//                            (event.getStartDate().getMonth() != clickDate.getMonth()) ||
-//                            (event.getStartDate().getYear() != clickDate.getYear()))
-//                        list.remove(event);
-//                }
                 if(list.isEmpty()) {
                     //show that you have no events
                     eventsToday.setText("You have no events today.");

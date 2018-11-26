@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.Gravity
+import android.view.Menu
 import android.view.View
 import android.widget.EditText
 import android.widget.ListView
@@ -32,6 +33,15 @@ class ChatActivity : AbstractAppActivity() {
             GROUP_PATH = "Groups/$groupId/chat_log"
         }
     }
+
+    //show the menu with group calendar option
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.group_chat_menu, menu)
+        activateIconColor(menu, R.id.action_chats)
+        return true
+    }
+
 
     private var adapter: FirebaseListAdapter<UserMessage>? = null
 
