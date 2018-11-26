@@ -63,10 +63,16 @@ public class ViewEventsActivity extends AppCompatActivity {
                     list.add(data.getValue(EventObjects.class));
                 }
 
+                Calendar today = Calendar.getInstance();
+                today.setTime(clickDate);
+
+                Calendar otherDay = Calendar.getInstance();
+
                 for(EventObjects event:list) {
-                    if((event.getStartDate().getDay() != clickDate.getDay()) ||
-                            (event.getStartDate().getMonth() != clickDate.getMonth()) ||
-                            (event.getStartDate().getYear() != clickDate.getYear()))
+                    otherDay.setTime(event.getStartDate());
+                    if((otherDay.get(Calendar.DAY_OF_MONTH) != today.get(Calendar.DAY_OF_MONTH)) ||
+                            (otherDay.get(Calendar.MONTH) != today.get(Calendar.MONTH)) ||
+                            (otherDay.get(Calendar.YEAR) != today.get(Calendar.YEAR)))
                         list.remove(event);
                 }
                 if(list.isEmpty()) {
