@@ -51,3 +51,20 @@ interface GroupMsgPreview {
     groupName: string,
     groupMsgPreview: string
 }
+
+
+exports.sendNotification = functions.database.ref('groups/{group_id}/chat_log')
+                            .onWrite((snapshot : any, context) => {
+                                const newMessage = snapshot.after()
+
+                                const payload = {
+                                      notification: {
+                                        title: 'You have a new follower!',
+                                        body: `Hey is now following you.`
+                                      }
+                                    };
+
+                                return admin.messaging().sendToDevice("ed_GTiKke7c:APA91bH8FI8Or_djpznhhfkN4-jiNfVNKryyAxBP4efXDgPe5Wek_dfT2wJcjrHhdwe3JbD5BRy45nJo9e4giLMUuPyS0dm2P47ugVBFiinD_lGfkB_a7UrqfewGFXV8eQy4ZiE0IdYY",
+                                    payload)
+
+                            })

@@ -1,17 +1,21 @@
 package com.example.derinibikunle.hermes
 
+import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import com.firebase.ui.auth.AuthUI
-import com.google.android.gms.tasks.Task
+import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AbstractAppActivity() {
 
@@ -22,28 +26,31 @@ class MainActivity : AbstractAppActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        FirebaseMessaging.getInstance().isAutoInitEnabled = true
 
-
-        if(FirebaseAuth.getInstance().currentUser != null){
-            FirebaseAuth.getInstance().signOut()
+        val d = FirebaseInstanceId.getInstance()
+        d.instanceId.addOnSuccessListener {
+            it -> Log.i("myTag", it.token)
         }
-        startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), SIGN_IN_REQUEST_CODE)
+
+        if(FirebaseAuth.getInstance().currentUser == null){
+            startActivityForResult(
+                    AuthUI
+                            .getInstance()
+                            .createSignInIntentBuilder()
+                            .build(),
+                    SIGN_IN_REQUEST_CODE)
+        }
+        else {
+            showChat()
+        }
 
         val chatBtn = findViewById<Button>(R.id.chat_btn)
         chatBtn.setOnClickListener {
             showChat()
         }
 
-        val calendarBtn = findViewById<Button>(R.id.calendar_btn)
-            calendarBtn.setOnClickListener {
 
-            showCalendar()
-        }
-
-        val settingsBtn = findViewById(R.id.settings_button) as Button
-        settingsBtn.setOnClickListener {
-            textFun()
-        }
 
     }
 
@@ -52,6 +59,7 @@ class MainActivity : AbstractAppActivity() {
 
         // Redirect the User once we get a response
         if(requestCode == SIGN_IN_REQUEST_CODE){
+            /* Creates a new entry to the database if we have a new user */
             val mDataBase = FirebaseDatabase.getInstance().reference.child("users")
             val loginListener = object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -66,44 +74,25 @@ class MainActivity : AbstractAppActivity() {
 
                 }
             }
-
             mDataBase.addValueEventListener(loginListener)
+
+            /* Collect the result */
+            if (resultCode == Activity.RESULT_OK) {
+                showChat()
+            }
+            else {
+                val response = IdpResponse.fromResultIntent(data)!!
+                retry(response)
+            }
         }
-            //if (resultCode == Activity.RESULT_OK) showChat()
     }
 
     private fun showChat() {
         ActivityLauncher.launch(this, GroupChatListActivity::class.java)
     }
 
-    private fun showCalendar() {
-        ActivityLauncher.launch(this, CustomCalendarActivity::class.java)
-
-
-    }
-
-    private fun textFun(){
-        val testStr = "9GRUYZD3a7Ogvt3zW1RZpzaNOt03"
-        getChats(testStr)
-    }
-
-    private fun getChats(id: String): Task<String> {
-        // Create the arguments to the callable function.
-        val data = hashMapOf(
-                "id" to id,
-                "push" to true
-        )
-
-        return functions
-                .getHttpsCallable("getChats")
-                .call(data)
-                .continueWith { task ->
-                    // This continuation runs on either success or failure, but if the task
-                    // has failed then result will throw an Exception which will be
-                    // propagated down.
-                    val result = task.result?.data as String
-                    result
-                }
+    private fun retry(response: IdpResponse) {
+        Toast.makeText(applicationContext,response.error!!.errorCode,Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -4,8 +4,11 @@ import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
+import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -15,15 +18,10 @@ import kotlinx.android.synthetic.main.activity_create_group.*
 
 class CreateGroupActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //create the group with the current user as the admin
-        val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
-        setContentView(R.layout.activity_create_group)
-
-        val createGroupBtn = findViewById<Button>(R.id.add_group_button)
-        createGroupBtn.setOnClickListener {
-           val group_name = group_name_input.text.toString()
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_add_group -> {
+            val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
+            val group_name = group_name_input.text.toString()
             if(group_name != null){
                 newGroup.set_group_name(group_name)
                 val mDataBase = FirebaseDatabase.getInstance().reference
@@ -40,7 +38,29 @@ class CreateGroupActivity : AppCompatActivity() {
                 }
             }
             ActivityLauncher.launch(this, GroupChatListActivity::class.java)
+            true
         }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.group_add_menu, menu)
+        return true
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //create the group with the current user as the admin
+        val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
+        setContentView(R.layout.activity_create_group)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
         val addUserButton = findViewById<Button>(R.id.add_user_button)
         addUserButton.setOnClickListener {
             val user_name = user_name_input.text.toString()
