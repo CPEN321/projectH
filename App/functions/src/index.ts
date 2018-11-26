@@ -5,66 +5,73 @@ admin.initializeApp();
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
 
-exports.getChats = functions.https.onCall((data, context) => {
-    const userID = data.id;
+exports.getChats = functions.https.onRequest((req, res) => {
+    const userID = req.query.id
+    
     if (!(typeof userID === 'string') || userID.length === 0) {
         // Throwing an HttpsError so that the client gets the error details.
         throw new functions.https.HttpsError('invalid-argument', 'The function must be called with ' +
             'one argument "userID" containing the userID to query.');
     }
-      // Checking that the user is authenticated.
-    if (!context.auth) {
-    // Throwing an HttpsError so that the client gets the error details.
-    throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' +
-        'while authenticated.');
-    }
 
-    let retList: GroupMsgPreview[];
 
     const ref = admin.database().ref()
-    ref.child('users/' + userID + '/group_ids').once('value', function(snapshot){
-        snapshot.forEach(function(childSnapshot) {
-            const currGroupID = childSnapshot.val()
-            let currGroup: GroupMsgPreview;
+    ref.child('users/' + userID + '/group_ids').once('value', groupIdsSnapshot => {
+        const snap = groupIdsSnapshot.val()
+        console.log(snap)
+        console.log(snap, ' is here!!!!!!')
+        // res.status(200).send(snap);
+        res.status(200).send(Object.keys(snap).map((key) => snap[key]));
+    })
+    .catch((err: Error) => {
+        throw err;
+    })
+});
 
-            console.log(currGroupID)
+exports.getGroupInfo = functions.https.onRequest((req, res) => {
+    const groupId = req.query.id
+    
+    if (!(typeof groupId === 'string') || groupId.length === 0) {
+        // Throwing an HttpsError so that the client gets the error details.
+        throw new functions.https.HttpsError('invalid-argument', 'The function must be called with ' +
+            'one argument "userID" containing the userID to query.');
+    }
 
-            ref.child('groups/' + currGroupID).once('value', function(groupSnapshot){
-                const adminName = groupSnapshot.val().admin
-                const groupName = groupSnapshot.val().name
-                
-                currGroup.groupName = groupName
-                currGroup.groupMsgPreview = adminName
+    const ref = admin.database().ref()
+    ref.child('groups/' + groupId).once('value', groupDatasSnapshot => {
+        const groupName = groupDatasSnapshot.val().groupName
+        const groupMsgPreview = groupDatasSnapshot.val().groupMsgPreview
 
-                console.log(adminName + " is the admin of " + groupName)
-            }).catch(() => 'obligatory catch')
-
-            retList.push(currGroup)
-            return false
-        })
-    }).catch(() => 'obligatory catch')
-
-    console.log(retList)
+        let currGroup: GroupMsgPreview = {
+            groupName,
+            groupMsgPreview,
+            groupId
+        }
+        res.status(200).send(currGroup)
+    })
+    .catch((err: Error) => {
+        throw err;
+    })
 });
 
 interface GroupMsgPreview {
-    groupName: string,
-    groupMsgPreview: string
+    groupName: String,
+    groupMsgPreview: String,
+    groupId: String
 }
 
+exports.setTextPreview = functions.database.ref('groups/{groupId}/messages/{messageId}').onCreate((snapshot, context) => {
+    const groupId = context.params.groupId
+    console.log(groupId)
+    
+    const messageId = context.params.messageId
+    console.log(messageId)
 
-exports.sendNotification = functions.database.ref('groups/{group_id}/chat_log')
-                            .onWrite((snapshot : any, context) => {
-                                const newMessage = snapshot.after()
+    console.log(snapshot.val())
 
-                                const payload = {
-                                      notification: {
-                                        title: 'You have a new follower!',
-                                        body: `Hey is now following you.`
-                                      }
-                                    };
+    const text = snapshot.val().text
+    console.log(text)
 
-                                return admin.messaging().sendToDevice("ed_GTiKke7c:APA91bH8FI8Or_djpznhhfkN4-jiNfVNKryyAxBP4efXDgPe5Wek_dfT2wJcjrHhdwe3JbD5BRy45nJo9e4giLMUuPyS0dm2P47ugVBFiinD_lGfkB_a7UrqfewGFXV8eQy4ZiE0IdYY",
-                                    payload)
-
-                            })
+    const ref = admin.database().ref('groups/' + groupId)
+    return ref.update({"preview": text})
+})
