@@ -77,7 +77,7 @@ class MainActivity : AbstractAppActivity() {
     }
 
     private fun showCalendar() {
-        ActivityLauncher.launch(this, CalendarActivity::class.java)
+        ActivityLauncher.launch(this, CustomCalendarActivity::class.java)
 
 
     }
