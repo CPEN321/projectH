@@ -17,11 +17,13 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_create_group.*
 
 class CreateGroupActivity : AppCompatActivity() {
-
+    private val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_add_group -> {
-            val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
+            //val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
+
             val group_name = group_name_input.text.toString()
+
             if(group_name != null){
                 newGroup.set_group_name(group_name)
                 val mDataBase = FirebaseDatabase.getInstance().reference
@@ -57,7 +59,7 @@ class CreateGroupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //create the group with the current user as the admin
-        val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
+        //val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
         setContentView(R.layout.activity_create_group)
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
