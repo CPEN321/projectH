@@ -67,7 +67,6 @@ class GroupChatListActivity : AbstractAppActivity() {
 
     private fun createListAdapter(): ArrayAdapter<GroupChatPreview> {
 
-
         val f = if(AbstractAppActivity.currentUserId == null) {
             Log.e("myTag", "User is not authenticated... It should not get to GroupChatListActivity")
             GroupListFunction().getGroupPreviews("")

@@ -100,7 +100,7 @@ class ChatActivity : AbstractAppActivity() {
         return object : FirebaseListAdapter<UserMessage>(
                     this,
                     UserMessage::class.java,
-                    R.layout.item_user_message,
+                    R.layout.item_message_received,
                     FirebaseDatabase.getInstance().reference.child(GROUP_PATH)
             ) {
             override fun populateView(v: View, userMessage: UserMessage, position: Int) {

@@ -28,6 +28,7 @@ class GroupListFunction {
                     connection.connect()
                     connection.inputStream.use { it.reader().use { reader -> reader.readText() } }
                 } catch(err: Exception) {
+                    Log.e("functionError", "Could not retrieve Group ids from FireBase function")
                     "[]"
                 } finally {
                     connection.disconnect()
@@ -42,8 +43,6 @@ class GroupListFunction {
         /* */
         class GroupDataTask : AsyncTask<String, String, GroupChatPreview>() {
             override fun doInBackground(vararg myURL: String?): GroupChatPreview {
-
-
                 val connection = URL(myURL[0]).openConnection() as HttpURLConnection
 
                 val resp: String =
@@ -52,8 +51,9 @@ class GroupListFunction {
                     connection.inputStream.use { it.reader().use { reader -> reader.readText() } }
 
                 }
-                catch (err:Error) {
-                    ""
+                catch (err:Exception) {
+                    Log.e("functionError", "Could not retrieve Chat data from FireBase function")
+                    "{}"
                 }
                 finally{
                     connection.disconnect()
