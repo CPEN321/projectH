@@ -23,6 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.derinibikunle.hermes.DatabaseQuery;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,10 +49,27 @@ public class CustomCalendarActivity extends AbstractAppActivity {
     private DatabaseQuery mQuery;
     public static List<Date> dayValueInCells;
 
+    /* Constants */
+    static String GROUP_ID_KEY = "groupId";
+
+    /* Sets up the path pointing to the messages of the group chat */
+    static String GROUP_PATH = "";
+
+    static void setGroupPath(String groupId) {
+        if(groupId != null)
+            GROUP_PATH = "groups/"+groupId+"/calendar_info";
+        else
+            GROUP_PATH = "users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/calendar_info";
+    }
+
+    static String GROUP_ID;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         activateIconColor(menu, R.id.action_calendar);
+        GROUP_ID = getIntent().getStringExtra(GROUP_ID_KEY);
+        setGroupPath(GROUP_ID);
         return true;
     }
 
@@ -58,6 +77,8 @@ public class CustomCalendarActivity extends AbstractAppActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_calendar);
+        GROUP_ID = getIntent().getStringExtra(GROUP_ID_KEY);
+        setGroupPath(GROUP_ID);
 
         initializeUILayout();
         setUpCalendarAdapter();
@@ -100,6 +121,9 @@ public class CustomCalendarActivity extends AbstractAppActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, SetEventActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("groupId", GROUP_ID);
+                intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });
@@ -114,6 +138,7 @@ public class CustomCalendarActivity extends AbstractAppActivity {
                 Intent intent = new Intent(context, ViewEventsActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", position);
+                bundle.putString("groupId", GROUP_ID);
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
@@ -135,7 +160,7 @@ public class CustomCalendarActivity extends AbstractAppActivity {
         Log.d(TAG, "Number of date " + dayValueInCells.size());
         String sDate = formatter.format(cal.getTime());
         thisDate.setText(sDate);
-        mAdapter = new GridAdapter(context, dayValueInCells, cal, mEvents);
+        mAdapter = new GridAdapter(context, dayValueInCells, cal, mEvents, GROUP_PATH);
         calendarGridView.setAdapter(mAdapter);
     }
 }
