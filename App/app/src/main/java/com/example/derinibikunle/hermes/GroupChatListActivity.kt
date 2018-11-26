@@ -13,7 +13,7 @@ import com.firebase.ui.database.FirebaseListAdapter
 class GroupChatListActivity : AbstractAppActivity() {
 
     companion object {
-        const val GROUP_REF:String = "Groups"
+        const val GROUP_REF:String = "groups"
     }
 
     private var adapter: FirebaseListAdapter<Groups>? = null
@@ -62,7 +62,7 @@ class GroupChatListActivity : AbstractAppActivity() {
 
     private fun createListAdapter(): FirebaseListAdapter<Groups> {
         return object : FirebaseListAdapter<Groups>(this, Groups::class.java,
-                R.layout.item_group_chat_preview, FirebaseDatabase.getInstance().reference.child(GROUP_REF)) {
+                R.layout.item_group_chat_preview, FirebaseDatabase.getInstance().reference.child("groups")) {
 
             override fun populateView(v: View, group: Groups, position: Int) {
                 // Get reference to the elements in GroupChatPreview.xml
