@@ -105,7 +105,9 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             List<EventObjects> list = new ArrayList<EventObjects>();
                             for(DataSnapshot data : dataSnapshot.getChildren()) {
-                                if (lEvents.get(position) == data.getValue(EventObjects.class)) {
+                                if (lEvents.get(position).getName().equals(data.getValue(EventObjects.class).getName()) &&
+                                lEvents.get(position).getStartDate().equals(data.getValue(EventObjects.class).getStartDate()) &&
+                                lEvents.get(position).getEndDate().equals(data.getValue(EventObjects.class).getEndDate())) {
                                     String key = data.getKey();
                                     mDataBase.child(key).removeValue();
                                 }
@@ -122,9 +124,6 @@ public class AdapterEventObjects extends ArrayAdapter<EventObjects> {
                     context.startActivity(intent);
                 }
             });
-
-
-
 
 
         } catch (Exception e) {
