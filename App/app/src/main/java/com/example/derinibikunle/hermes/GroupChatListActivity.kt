@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.*
+import com.example.derinibikunle.hermes.functions.GroupListFunction
 import com.google.firebase.database.FirebaseDatabase
 import com.firebase.ui.database.FirebaseListAdapter
 
@@ -15,7 +16,7 @@ class GroupChatListActivity : AbstractAppActivity() {
         const val GROUP_REF:String = "groups"
     }
 
-    private var adapter: FirebaseListAdapter<Groups>? = null
+    private var adapter: ArrayAdapter<GroupChatPreview>? = null
 //    private var storageRef: StorageReference
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -29,7 +30,6 @@ class GroupChatListActivity : AbstractAppActivity() {
         setContentView(R.layout.activity_group_chat_list)
         setupAddGrpButton()
         setupGroupListView()
-
     }
 
     /*
@@ -64,27 +64,18 @@ class GroupChatListActivity : AbstractAppActivity() {
         ActivityLauncher.launch(this, CreateGroupActivity::class.java)
     }
 
-    private fun createListAdapter(): FirebaseListAdapter<Groups> {
-        return object : FirebaseListAdapter<Groups>(this, Groups::class.java,
-                R.layout.item_group_chat_preview, FirebaseDatabase.getInstance().reference.child(GROUP_REF)) {
+    private fun createListAdapter(): ArrayAdapter<GroupChatPreview> {
 
-            override fun populateView(v: View, group: Groups, position: Int) {
-                // Get reference to the elements in GroupChatPreview.xml
-                val nameComponent = v.findViewById<TextView>(R.id.group_name)
-                val msgPreviewComponent = v.findViewById<TextView>(R.id.group_msg_preview)
-                val iconComponent = v.findViewById<ImageView>(R.id.group_icon)
 
-                nameComponent.text = group.name
-//                msgPreviewComponent.text = group
-//                                            .messages
-//                                            .last()
-//                                            .messageUser
-
-                // TODO we should store the icon in the cloud storage
-//                val url = URL(groupPreview.groupIconPath)
-//                val bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-//                iconComponent.setImageBitmap(bmp)
-            }
+        val f = if(AbstractAppActivity.currentUserId == null) {
+            Log.e("myTag", "User is not authenticated... It should not get to GroupChatListActivity")
+            GroupListFunction().getGroupPreviews("")
         }
+        else GroupListFunction().getGroupPreviews(AbstractAppActivity.currentUserId!!)
+
+        Log.i("myTag", f.toString())
+
+        return GroupChatListAdapter(this, f)
+
     }
 }

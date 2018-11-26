@@ -12,7 +12,23 @@ import com.google.firebase.auth.FirebaseAuth
 
 abstract class AbstractAppActivity: AppCompatActivity() {
 
-    protected var currentUserEmail : String = FirebaseAuth.getInstance().currentUser?.email!!
+
+    companion object {
+        private var currentUserInstance = FirebaseAuth.getInstance().currentUser
+
+        var currentUserEmail: String? = try {
+            currentUserInstance?.email
+        } catch (err: Error) {
+            null
+        }
+
+        var currentUserId: String? = try {
+            currentUserInstance?.uid
+        } catch (err: Error) {
+            null
+        }
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> {

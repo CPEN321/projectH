@@ -3,12 +3,10 @@ package com.example.derinibikunle.hermes
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
-import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,9 +19,9 @@ class CreateGroupActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_add_group -> {
             val newGroup = Groups(FirebaseAuth.getInstance().currentUser?.uid!!)
-            val group_name = group_name_input.text.toString()
-            if(group_name != null){
-                newGroup.set_group_name(group_name)
+            val groupName = group_name_input.text.toString()
+            if(groupName != null){
+                newGroup.set_group_name(groupName)
                 val mDataBase = FirebaseDatabase.getInstance().reference
                 //get the next key to add to the list
                 val group_key = mDataBase.child("groups").push().key
@@ -63,7 +61,7 @@ class CreateGroupActivity : AppCompatActivity() {
 
         val addUserButton = findViewById<Button>(R.id.add_user_button)
         addUserButton.setOnClickListener {
-            val user_name = user_name_input.text.toString()
+            val username = user_name_input.text.toString()
             //get reference starting from child node
             val mDataBase = FirebaseDatabase.getInstance().reference.child("users")
             //required to read data
@@ -71,7 +69,7 @@ class CreateGroupActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     //go through all the users(children of the reference which is the datasnap) and check if the email is the input
                     for (data in snapshot.children) {
-                        if (data.child("user_id").getValue(String::class.java) == user_name) {
+                        if (data.child("user_id").getValue(String::class.java) == username) {
                             //get the key to user which has the email input
                             val key = data.key
                             //add the user key to the member list of the group

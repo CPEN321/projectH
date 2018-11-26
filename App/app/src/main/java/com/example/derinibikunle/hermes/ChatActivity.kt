@@ -104,10 +104,12 @@ class ChatActivity : AbstractAppActivity() {
                 messageUser.text = userMessage.messageUser
                 messageTime.text = userMessage.messageDate
 
-                if(userMessage.messageUser == currentUserEmail) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        v.foregroundGravity = Gravity.RIGHT
-                    }
+                // Log.i("myTag", userMessage.messageUser + " AND " + currentUserEmail)
+                if(userMessage.messageUser.equals(AbstractAppActivity.currentUserEmail)) {
+                        // Log.i("myTag", "Switching to the right")
+                        messageText.gravity = Gravity.END
+                        messageUser.gravity = Gravity.RIGHT
+                        messageTime.gravity = Gravity.RIGHT
                 }
             }
         }

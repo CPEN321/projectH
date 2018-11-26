@@ -5,6 +5,13 @@
     android:layout_marginBottom="5dp">
 
     <TextView
+        android:id="@+id/group_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:visibility="gone" />
+
+    <TextView
         android:id="@+id/group_name"
         android:layout_width="274dp"
         android:layout_height="31dp"
@@ -31,7 +38,11 @@
         android:layout_width="62dp"
         android:layout_height="53dp"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
 </RelativeLayout>

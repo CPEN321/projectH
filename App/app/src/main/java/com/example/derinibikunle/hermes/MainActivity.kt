@@ -30,7 +30,7 @@ class MainActivity : AbstractAppActivity() {
 
         val d = FirebaseInstanceId.getInstance()
         d.instanceId.addOnSuccessListener {
-            it -> Log.i("myTag", it.token)
+            it -> Log.i("tokenTag", it.token)
         }
 
         if(FirebaseAuth.getInstance().currentUser == null){
