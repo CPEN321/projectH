@@ -65,7 +65,7 @@ class CreateGroupActivity : AppCompatActivity() {
 
         val addUserButton = findViewById<Button>(R.id.add_user_button)
         addUserButton.setOnClickListener {
-            val user_name = user_name_input.text.toString()
+            val user_name = (user_name_input.text.toString()).trim()
             //get reference starting from child node
             val mDataBase = FirebaseDatabase.getInstance().reference.child("users")
             //required to read data
@@ -78,13 +78,17 @@ class CreateGroupActivity : AppCompatActivity() {
                             val key = data.key
                             //add the user key to the member list of the group
                             newGroup.add_member(key)
+                            val toast = Toast.makeText(this@CreateGroupActivity, "User "+ user_name +" Added!", Toast.LENGTH_SHORT)
+                            val v = toast.view
+                            v.setBackgroundColor(Color.rgb(0xff, 0xb2, 0x5f))
+                            toast.show()
                             return
                         }
                     }
                     //if you find nothing tell the user the email is invalid
                     val toast = Toast.makeText(this@CreateGroupActivity, "Invalid User Email", Toast.LENGTH_SHORT)
                     val v = toast.view
-                    v.setBackgroundColor(Color.rgb(252, 17, 88))
+                    v.setBackgroundColor(Color.rgb(0xff, 0xb2, 0x5f))
                     toast.show()
                 }
 
