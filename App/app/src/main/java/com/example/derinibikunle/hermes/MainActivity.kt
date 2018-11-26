@@ -15,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.messaging.FirebaseMessaging
+//import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AbstractAppActivity() {
 
@@ -26,7 +26,7 @@ class MainActivity : AbstractAppActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        FirebaseMessaging.getInstance().isAutoInitEnabled = true
+       // FirebaseMessaging.getInstance().isAutoInitEnabled = true
 
         val d = FirebaseInstanceId.getInstance()
         d.instanceId.addOnSuccessListener {
