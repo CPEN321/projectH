@@ -104,17 +104,17 @@ public class SetEventActivity extends AppCompatActivity {
                             else if((endHour < startHour) || ((endHour == startHour) && (endMinute < startMinute))) {
                                 Toast.makeText(context, "End time must be after start time.", Toast.LENGTH_LONG).show();
                             }
-                            else if(endHour > 23 || endHour < 1) {
-                                Toast.makeText(context, "End hour must be between 1 and 23.", Toast.LENGTH_LONG).show();
+                            else if(endHour > 23 || endHour < 0) {
+                                Toast.makeText(context, "End hour must be between 0 and 23.", Toast.LENGTH_LONG).show();
                             }
-                            else if(startHour > 23 || startHour < 1) {
-                                Toast.makeText(context, "Start hour must be between 1 and 23.", Toast.LENGTH_LONG).show();
+                            else if(startHour > 23 || startHour < 0) {
+                                Toast.makeText(context, "Start hour must be between 0 and 23.", Toast.LENGTH_LONG).show();
                             }
-                            else if(endMinute > 59 || endMinute < 1) {
-                                Toast.makeText(context, "End minute must be between 1 and 59.", Toast.LENGTH_LONG).show();
+                            else if(endMinute > 59 || endMinute < 0) {
+                                Toast.makeText(context, "End minute must be between 0 and 59.", Toast.LENGTH_LONG).show();
                             }
-                            else if(startMinute > 59 || startMinute < 1) {
-                                Toast.makeText(context, "Start minute must be between 1 and 59.", Toast.LENGTH_LONG).show();
+                            else if(startMinute > 59 || startMinute < 0) {
+                                Toast.makeText(context, "Start minute must be between 0 and 59.", Toast.LENGTH_LONG).show();
                             }
                             else {
                                 startDate = getDate(startYear, startMonth, startDay, startHour, startMinute);
