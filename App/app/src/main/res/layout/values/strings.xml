@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="default_notification_channel_id">default_notif_channel_firebase</string>
-    <string name="fcm_message">you have a new message?</string>
-</resources>

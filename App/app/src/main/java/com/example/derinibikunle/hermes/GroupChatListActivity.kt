@@ -66,7 +66,7 @@ class GroupChatListActivity : AbstractAppActivity() {
 
     private fun createListAdapter(): FirebaseListAdapter<Groups> {
         return object : FirebaseListAdapter<Groups>(this, Groups::class.java,
-                R.layout.item_group_chat_preview, FirebaseDatabase.getInstance().reference.child("groups")) {
+                R.layout.item_group_chat_preview, FirebaseDatabase.getInstance().reference.child(GROUP_REF)) {
 
             override fun populateView(v: View, group: Groups, position: Int) {
                 // Get reference to the elements in GroupChatPreview.xml
@@ -75,10 +75,10 @@ class GroupChatListActivity : AbstractAppActivity() {
                 val iconComponent = v.findViewById<ImageView>(R.id.group_icon)
 
                 nameComponent.text = group.name
-                msgPreviewComponent.text = group
-                                            .messages
-                                            .last()
-                                            .messageUser
+//                msgPreviewComponent.text = group
+//                                            .messages
+//                                            .last()
+//                                            .messageUser
 
                 // TODO we should store the icon in the cloud storage
 //                val url = URL(groupPreview.groupIconPath)

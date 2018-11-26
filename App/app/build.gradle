@@ -53,14 +53,10 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:4.2.0'
     implementation 'com.firebaseui:firebase-ui:1.2.0'
     implementation 'com.google.firebase:firebase-storage:16.0.5'
-<<<<<<< Updated upstream
-    implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
+    implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
     implementation 'joda-time:joda-time:2.9.4'
-=======
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation 'com.firebase:firebase-jobdispatcher-with-gcm-dep:0.6.0'
-
->>>>>>> Stashed changes
 }
 apply plugin: 'com.google.gms.google-services'
 

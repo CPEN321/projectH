@@ -26,10 +26,9 @@
         <activity android:name=".CustomCalendarActivity" />
         <activity android:name=".GroupChatListActivity" />
         <activity android:name=".CreateGroupActivity" />
-<<<<<<< Updated upstream
         <activity android:name=".SetEventActivity"/>
         <activity android:name=".ViewEventsActivity"/>
-=======
+
 
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
@@ -46,8 +45,6 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
-
->>>>>>> Stashed changes
     </application>
 
 
