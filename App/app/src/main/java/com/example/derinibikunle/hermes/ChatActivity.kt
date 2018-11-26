@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -29,7 +30,31 @@ class ChatActivity : AbstractAppActivity() {
         fun setGroupPath(groupId: String) {
             GROUP_PATH = "groups/$groupId/messages"
         }
+
+        var GROUP_ID : String = ""
     }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId)  {
+        R.id.action_group_calendar -> {
+            ActivityLauncher
+                    .addParam("groupId", GROUP_ID)
+                    .launch(this,CustomCalendarActivity::class.java)
+            true
+        }
+
+        R.id.action_add_event -> {
+            ActivityLauncher
+                    .addParam("groupId", GROUP_ID)
+                    .launch(this,SetEventActivity::class.java)
+            true
+        }
+
+        else -> {
+            /* Let the parent class handle it */
+            super.onOptionsItemSelected(item)
+        }
+    }
+
 
     //show the menu with group calendar option
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -39,16 +64,14 @@ class ChatActivity : AbstractAppActivity() {
         return true
     }
 
-
     private var adapter: FirebaseListAdapter<UserMessage>? = null
 
-    @SuppressLint("SimpleDateFormat")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         setContentView(R.layout.activity_chat)
-
+        GROUP_ID = intent.getStringExtra(GROUP_ID_KEY)
         Log.i("myTag", intent.toString())
-        setGroupPath(intent.getStringExtra(GROUP_ID_KEY))
+        setGroupPath(GROUP_ID)
 
 
         val sendMsgBtn = findViewById<FloatingActionButton>(R.id.send_msg_button)
@@ -69,6 +92,65 @@ class ChatActivity : AbstractAppActivity() {
         val messageView = findViewById<ListView>(R.id.list_of_messages)
         adapter = createListAdapter()
         messageView.adapter = adapter
+    }
+
+    override fun onStart() {
+        super.onStart()
+//        setContentView(R.layout.activity_chat)
+//
+//        Log.i("myTag", intent.toString())
+//        setGroupPath(intent.getStringExtra(GROUP_ID_KEY))
+//
+//
+//        val sendMsgBtn = findViewById<FloatingActionButton>(R.id.send_msg_button)
+//        sendMsgBtn.setOnClickListener {
+//            /* Assign a date and text to every message sent */
+//            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+//            val currentDate = sdf.format(Date())
+//            val chatText = findViewById<EditText>(R.id.chat_input_text)
+//
+//            /* Update the database with the new message */
+//            sendMessage(chatText.text.toString(), currentDate)
+//
+//            /* The User needs to have a clean input field after every event */
+//            chatText.setText("")
+//        }
+//
+//        /* Set up the message list */
+//        val messageView = findViewById<ListView>(R.id.list_of_messages)
+//        adapter = createListAdapter()
+//        messageView.adapter = adapter
+    }
+
+
+
+    @SuppressLint("SimpleDateFormat")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_chat)
+        GROUP_ID = intent.getStringExtra(GROUP_ID_KEY)
+        Log.i("myTag", intent.toString())
+        setGroupPath(GROUP_ID)
+//
+//
+//        val sendMsgBtn = findViewById<FloatingActionButton>(R.id.send_msg_button)
+//        sendMsgBtn.setOnClickListener {
+//            /* Assign a date and text to every message sent */
+//            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+//            val currentDate = sdf.format(Date())
+//            val chatText = findViewById<EditText>(R.id.chat_input_text)
+//
+//            /* Update the database with the new message */
+//            sendMessage(chatText.text.toString(), currentDate)
+//
+//            /* The User needs to have a clean input field after every event */
+//            chatText.setText("")
+//        }
+//
+//        /* Set up the message list */
+//        val messageView = findViewById<ListView>(R.id.list_of_messages)
+//        adapter = createListAdapter()
+//        messageView.adapter = adapter
     }
 
     private fun sendMessage(chatText: String, currentDate: String) {

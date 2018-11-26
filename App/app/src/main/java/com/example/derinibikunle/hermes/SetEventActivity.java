@@ -10,6 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Context;
 import android.widget.EditText;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,6 +26,8 @@ public class SetEventActivity extends AppCompatActivity {
     private Button makeEvent;
     private CheckBox repeatCheck;
     private boolean repeat = false;
+
+
 
     private int timeSize = 2;
     private int dateSize = 3;
@@ -50,11 +56,28 @@ public class SetEventActivity extends AppCompatActivity {
 
     private int numRepeats;
 
+    /* Constants */
+    static String GROUP_ID_KEY = "groupId";
+
+    /* Sets up the path pointing to the messages of the group chat */
+    static String GROUP_PATH = "";
+
+    static void setGroupPath(String groupId) {
+        if(groupId!=null)
+            GROUP_PATH = "groups/"+groupId+"/calendar_info";
+        else
+            GROUP_PATH = "users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/calendar_info";
+    }
+
+    static String GROUP_ID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //do some stuff in here
         setContentView(R.layout.activity_set_event);
+        GROUP_ID = getIntent().getStringExtra(GROUP_ID_KEY);
+        setGroupPath(GROUP_ID);
 
         eventName = (EditText)findViewById(R.id.event_input_name);
         eventDate = (EditText)findViewById(R.id.event_input_date);
@@ -142,7 +165,7 @@ public class SetEventActivity extends AppCompatActivity {
                                         }
                                         else if(numRepeats > 4)
                                         {
-                                            Toast.makeText(context, "Please only repeat events for a month!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(context, "Please only repeat events for a month", Toast.LENGTH_LONG).show();
                                         }
                                         else {
                                             int noOfDays = 7; //i.e one week
@@ -178,7 +201,8 @@ public class SetEventActivity extends AppCompatActivity {
                                     startDate = getDate(startYear, startMonth, startDay, startHour, startMinute);
                                     endDate = getDate(endYear, endMonth, endDay, endHour, endMinute);
 
-                                    DatabaseQuery.pushToDb(new EventObjects(name, startDate, endDate));
+                                   // DatabaseQuery.pushToDb(new EventObjects(name, startDate, endDate));
+                                    FirebaseDatabase.getInstance().getReference().child(GROUP_PATH).push().setValue(new EventObjects(name, startDate, endDate));
                                     Toast.makeText(context, "Event Added!", Toast.LENGTH_LONG).show();
                                 }
                             }

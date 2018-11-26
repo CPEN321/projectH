@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_add_event"
+        android:checkable="false"
+        android:enabled="true"
+        android:icon="@drawable/baseline_queue_black_36dp"
+        android:title="Item"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_calendar"
         android:icon="@drawable/baseline_calendar_today_black_36"
         android:title="Calendar"
